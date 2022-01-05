@@ -1,0 +1,45 @@
+package com.project.board.entity;
+
+import com.project.board.role.Role;
+import jdk.jfr.Name;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity(name = "USER")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, length = 20, nullable = false)
+    private String userId;
+    @Column(nullable = false)
+    private String userPassword;
+    @Column(nullable = false)
+    private String userName;
+    @Column(nullable = false)
+    private String userGender;
+    @Column(nullable = false, unique = true)
+    private String userEmail;
+
+    private Role role;
+
+    @Column(nullable = false)
+    private LocalDateTime createDate;
+
+    @PrePersist
+    public void createDate() {
+        this.createDate = LocalDateTime.now();
+    }
+}
