@@ -1,2 +1,0 @@
-function checkUserIdExist()
-    var userId = $("$")

@@ -18,7 +18,6 @@ public class ValidationAdvice {
     @Around("execution(* com.project.board.web.*Controller.*(..))")
     public Object advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        System.out.println("web 컨트롤러================");
 
         Object[] args = proceedingJoinPoint.getArgs();
         for(Object arg : args) {

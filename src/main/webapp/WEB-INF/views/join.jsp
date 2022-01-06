@@ -46,13 +46,15 @@
                 <form method="POST" action="/auth/join">
                     <h3 style="text-align: center;">회원가입 화면</h3>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="아이디" name="userId" maxlength="20" >
-                        <div class="input-group-append">
-                             <button type="button" class="btn btn-primary" onclick='checkUserIdExist()'>중복확인</button>
-                        </div>
+                        <input type="text" class="form-control" placeholder="아이디" name="userId" id="userId" maxlength="20" >
+                        <div class="idCheck" id="idCheck"></div>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="비밀번호" name="userPassword" maxlength="20" required="required">
+                    </div>
+                    <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="이메일" name="userEmail" id="userEmail" maxlength="20" required="required">
+                                            <div class="emailCheck" id="emailCheck"></div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="이름" name="userName" maxlength="20" required="required">
@@ -67,11 +69,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="이메일" name="userEmail" maxlength="20" required="required">
-                    </div>
 
-                    <button class="btn btn-primary form-control">회원가입</button>
+
+                    <button class="btn btn-primary form-control" id="regSubmit">회원가입</button>
                 </form>
             </div>
         </div>
@@ -79,7 +79,79 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/../resources/js/bootstrap.js"></script>
-    <script src="/../resources/js/join.js"></script>
+
+
+<script type="text/javascript">
+// 아이디 유효성 검사(true = 중복 / false = 중복x)
+	$("#userId").blur(function() {
+		var userId = $("#userId").val();
+
+		if(userId == ""){
+            $("#idCheck").text("아이디를 입력해주세요");
+            $("#idCheck").css("color", "red");
+            $("#regSubmit").attr("disabled", true);
+        }
+
+		$.ajax({
+            type: "get",
+            url: "/api/auth/idCheck/" + userId,
+            dataType: "json"
+		}).done(res => {
+		    if (res.data == true){
+                $("#idCheck").text("사용중인 아이디 입니다.");
+                $("#idCheck").css("color", "red");
+                $("#regSubmit").attr("disabled", true);
+            }else {
+                $("#idCheck").text("사용 가능한 아이디 입니다.");
+                $("#idCheck").css("color", "blue");
+                $("#regSubmit").attr("disabled", false);
+
+
+
+                if(userId.length > 20 || userId.length < 2) {
+                    $("#idCheck").text("아이디는 2자 이상 20자 이내로 해주세요.");
+                    $("#idCheck").css("color", "red");
+                    $("#regSubmit").attr("disabled", true);
+                }
+
+            }
+
+		}).fail(error => {
+            console.log("오류", error);
+		});
+	});
+
+// 이메일 유효성 검사(true = 중복 / false = 중복x)
+	$("#userEmail").blur(function() {
+		var userEmail = $("#userEmail").val();
+
+        if(userEmail == ""){
+            $("#emailCheck").text("이메일을 입력해주세요");
+            $("#emailCheck").css("color", "red");
+            $("#regSubmit").attr("disabled", true);
+        }
+
+		$.ajax({
+            type: "get",
+            url: "/api/auth/emailCheck/" + userEmail,
+            dataType: "json"
+		}).done(res => {
+		    if (res.data == true){
+                $("#emailCheck").text("사용중인 이메일 입니다.");
+                $("#emailCheck").css("color", "red");
+                $("#regSubmit").attr("disabled", true);
+            }else {
+                $("#emailCheck").text("사용 가능한 이메일 입니다.");
+                $("#emailCheck").css("color", "blue");
+                $("#regSubmit").attr("disabled", false);
+            }
+
+		}).fail(error => {
+            console.log("오류", error);
+		});
+	})
+</script>
+
 
 </body>
 </html>

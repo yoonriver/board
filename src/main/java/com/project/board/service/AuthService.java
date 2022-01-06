@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,5 +27,21 @@ public class AuthService {
 
         authRepository.save(userEntity);
 
+    }
+
+    @Transactional
+    public boolean 아이디확인(String userId) {
+
+        boolean isExists = authRepository.existsByUserId(userId);
+
+        return isExists;
+    }
+
+    @Transactional
+    public boolean 이메일확인(String userEmail) {
+
+        boolean isExists = authRepository.existsByUserEmail(userEmail);
+
+        return isExists;
     }
 }

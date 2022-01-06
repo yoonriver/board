@@ -50,7 +50,8 @@ public class AuthController {
         UserEntity userEntity = userDto.toEntity();
         authService.회원가입(userEntity);
 
-        return "/main";
+        return "redirect:/main";
 
     }
+
 }
