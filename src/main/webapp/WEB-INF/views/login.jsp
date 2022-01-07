@@ -32,8 +32,9 @@
                         data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">접속하기<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li class="active"><a href="auth/login">로그인</li>
-                        <li><a href="auth/join">회원가입</li>
+                        <li>${loginFailMsg}</li>
+                        <li class="active"><a href="login">로그인</a></li>
+                        <li><a href="join">회원가입</a></li>
                     </ul>
                 </li>
             </ul>
@@ -43,22 +44,22 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <div class="jumbotron" style="padding-top: 20px;">
-                <form method="POST" action="auth/login">
+                <form method="POST" action="/auth/login">
                     <h3 style="text-align: center;">로그인 화면</h3>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
+                        <input type="text" class="form-control" placeholder="아이디" name="username" maxlength="20" />
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="비밀번호" name="userPassword" maxlength="20">
+                        <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" />
                     </div>
-                    <input type="button" class="btn btn-primary form-control" value="로그인">
+                    <button class="btn btn-primary form-control">로그인</button>
                 </form>
             </div>
         </div>
 
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="resources/js/bootstrap.js"></script>
+    <script src="/../resources/js/bootstrap.js"></script>
 
 </body>
 </html>

@@ -11,4 +11,13 @@ public class Script {
 
         return sb.toString();
     }
+
+    public static String alert(String msg) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<script>");
+        sb.append("alert('" + msg + "');");
+        sb.append("</script>");
+
+        return sb.toString();
+    }
 }

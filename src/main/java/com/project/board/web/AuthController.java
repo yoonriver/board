@@ -32,11 +32,6 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/auth/login")
-    public String login() {
-
-        return "/";
-    }
 
     @GetMapping("/auth/join")
     public String joinForm() {

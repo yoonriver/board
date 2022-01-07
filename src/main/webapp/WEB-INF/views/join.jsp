@@ -46,18 +46,18 @@
                 <form method="POST" action="/auth/join">
                     <h3 style="text-align: center;">회원가입 화면</h3>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="아이디" name="userId" id="userId" maxlength="20" >
+                        <input type="text" class="form-control" placeholder="아이디" name="username" id="username" maxlength="20" >
                         <div class="idCheck" id="idCheck"></div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="비밀번호" name="userPassword" maxlength="20" required="required">
+                        <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" required="required">
                     </div>
                     <div class="form-group">
                                             <input type="email" class="form-control" placeholder="이메일" name="userEmail" id="userEmail" maxlength="20" required="required">
                                             <div class="emailCheck" id="emailCheck"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="이름" name="userName" maxlength="20" required="required">
+                        <input type="text" class="form-control" placeholder="이름" name="name" maxlength="20" required="required">
                     </div>
                     <div class="form-group" style="text-align: center;">
                         <div class="btn-group" data-toggle="buttons">
@@ -69,7 +69,6 @@
                             </label>
                         </div>
                     </div>
-
 
                     <button class="btn btn-primary form-control" id="regSubmit">회원가입</button>
                 </form>
@@ -83,8 +82,8 @@
 
 <script type="text/javascript">
 // 아이디 유효성 검사(true = 중복 / false = 중복x)
-	$("#userId").blur(function() {
-		var userId = $("#userId").val();
+	$("#username").blur(function() {
+		var username = $("#username").val();
 
 		if(userId == ""){
             $("#idCheck").text("아이디를 입력해주세요");
@@ -94,7 +93,7 @@
 
 		$.ajax({
             type: "get",
-            url: "/api/auth/idCheck/" + userId,
+            url: "/api/auth/idCheck/" + username,
             dataType: "json"
 		}).done(res => {
 		    if (res.data == true){
@@ -106,9 +105,7 @@
                 $("#idCheck").css("color", "blue");
                 $("#regSubmit").attr("disabled", false);
 
-
-
-                if(userId.length > 20 || userId.length < 2) {
+                if(username.length > 20 || username.length < 2) {
                     $("#idCheck").text("아이디는 2자 이상 20자 이내로 해주세요.");
                     $("#idCheck").css("color", "red");
                     $("#regSubmit").attr("disabled", true);

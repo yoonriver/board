@@ -1,12 +1,9 @@
 package com.project.board.entity;
 
-import com.project.board.role.Role;
-import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,17 +20,17 @@ public class UserEntity {
     private Long id;
 
     @Column(unique = true, length = 20, nullable = false)
-    private String userId;
+    private String username;
     @Column(nullable = false)
-    private String userPassword;
+    private String password;
     @Column(nullable = false)
-    private String userName;
+    private String name;
     @Column(nullable = false)
     private String userGender;
     @Column(nullable = false, unique = true)
     private String userEmail;
 
-    private Role role;
+    private String role;
 
     @Column(nullable = false)
     private LocalDateTime createDate;

@@ -1,5 +1,7 @@
 package com.project.board.config;
 
+import com.project.board.handler.auth.AuthFailureHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    private final AuthFailureHandler authFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder encoder() { // 패스워드를 암호화 시켜주는 메소드
@@ -22,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/board/write")
+                .antMatchers("/board/write", "/board")
                 .authenticated()
                 .anyRequest()
                 .permitAll()
@@ -30,6 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .formLogin()
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/main", true);
+                //.successHandler(successHandler())
+                //.failureHandler(authFailureHandler)
+
     }
 }

@@ -1,7 +1,6 @@
 package com.project.board.dto;
 
 import com.project.board.entity.UserEntity;
-import com.project.board.role.Role;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -11,11 +10,11 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
     @Size(min = 2, max = 20) // 2자 이상 20자 이하
-    private String userId;
+    private String username;
     @NotBlank
-    private String userPassword;
+    private String password;
     @NotBlank
-    private String userName;
+    private String name;
     @NotBlank
     private String userGender;
     @NotBlank
@@ -24,9 +23,9 @@ public class UserDto {
     public UserEntity toEntity() {
         return new UserEntity()
                     .builder()
-                    .userId(userId)
-                    .userPassword(userPassword)
-                    .userName(userName)
+                    .username(username)
+                    .password(password)
+                    .name(name)
                     .userGender(userGender)
                     .userEmail(userEmail)
                     .build();

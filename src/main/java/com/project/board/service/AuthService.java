@@ -2,13 +2,10 @@ package com.project.board.service;
 
 import com.project.board.entity.UserEntity;
 import com.project.board.repository.AuthRepository;
-import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,19 +17,19 @@ public class AuthService {
     @Transactional
     public void 회원가입(UserEntity userEntity) {
 
-        String rawPassword = userEntity.getUserPassword();
+        String rawPassword = userEntity.getPassword();
         String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
-        userEntity.setUserPassword(encodedPassword);
-        userEntity.setRole(Role.USER);
+        userEntity.setPassword(encodedPassword);
+        userEntity.setRole("ROLE_USER");
 
         authRepository.save(userEntity);
 
     }
 
     @Transactional
-    public boolean 아이디확인(String userId) {
+    public boolean 아이디확인(String username) {
 
-        boolean isExists = authRepository.existsByUserId(userId);
+        boolean isExists = authRepository.existsByUsername(username);
 
         return isExists;
     }
