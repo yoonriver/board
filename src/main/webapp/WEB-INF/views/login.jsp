@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width", initial-scale="1">
     <link rel="stylesheet" href="/../resources/css/bootstrap.css">
     <title>Title</title>
+    <style type="text/css">
+    #loginCheck {
+        color : red;
+    }
+    </style>
 </head>
 
 <body>
@@ -46,6 +51,7 @@
             <div class="jumbotron" style="padding-top: 20px;">
                 <form method="POST" action="/auth/login">
                     <h3 style="text-align: center;">로그인 화면</h3>
+                    <div class="loginCheck" id="loginCheck">${loginFailMsg}</div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="아이디" name="username" maxlength="20" />
                     </div>
