@@ -6,23 +6,21 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserUpdateDto {
+public class UserPwUpdateDto {
 
     @NotBlank
     private String password;
 
     @NotBlank
-    private String userEmail;
+    private String mod_password1;
 
     @NotBlank
-    private String name;
+    private String mod_password2;
 
     public UserEntity toEntity() {
 
         return new UserEntity().builder()
                                 .password(password)
-                                .userEmail(userEmail)
-                                .name(name)
                                 .build();
     }
 

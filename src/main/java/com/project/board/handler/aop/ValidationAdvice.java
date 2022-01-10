@@ -18,6 +18,28 @@ public class ValidationAdvice {
     @Around("execution(* com.project.board.web.*Controller.*(..))")
     public Object advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
+        Object[] args = proceedingJoinPoint.getArgs();
+        for(Object arg : args) {
+            if (arg instanceof BindingResult) {
+                BindingResult bindingResult = (BindingResult) arg;
+
+                if (bindingResult.hasErrors()) {
+                    Map<String, String> errorMap = new HashMap<>();
+
+                    for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                        errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+                    }
+
+                    throw new CustomValidationException("유효성 검사 실패함", errorMap);
+                }
+            }
+        }
+
+        return proceedingJoinPoint.proceed();
+    }
+
+    @Around("execution(* com.project.board.web.api.*Controller.*(..))")
+    public Object apiAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         Object[] args = proceedingJoinPoint.getArgs();
         for(Object arg : args) {

@@ -1,8 +1,8 @@
 package com.project.board.handler.ex;
 
-public class CustomUpdateValidationException extends RuntimeException {
+public class CustomPwUpdateValidationException extends RuntimeException {
 
-    public CustomUpdateValidationException(String message) {
+    public CustomPwUpdateValidationException(String message) {
         super(message);
     }
 }
