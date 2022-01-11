@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -48,8 +49,8 @@
                           <li><a href="auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
-                          <li><a href="logout">로그아웃</a></li>
-                          <li><a href="join">회원 정보 보기</a></li>
+                          <li><a href="/logout">로그아웃</a></li>
+                          <li><a href="profile/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -58,36 +59,37 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form method="POST" action="/board/write">
-                <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
-                    <thead>
+            <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                <thead>
+                    <tr>
+                        <th style="background-color: #eeeee; text-align: center;">번호</th>
+                        <th style="background-color: #eeeee; text-align: center;">제목</th>
+                        <th style="background-color: #eeeee; text-align: center;">작성자</th>
+                        <th style="background-color: #eeeee; text-align: center;">조회수</th>
+                        <th style="background-color: #eeeee; text-align: center;">작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${writeList}" var="list">
+
                         <tr>
-                            <th colspan="2" style="background-color: #eeeeee; text-align: center;">게시판 글쓰기 양식</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td width=100%>
-                                <label>카테고리</label>
-                                <select id="category" name="category">
-                                    <option value="news">소식</option>
-                                    <option value="review">리뷰</option>
-                                    <option value="chat">잡담</option>
-                                </select>
-                                <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"/>
+                            <td>${list.id}</td>
+                            <td><a href="board/${list.id}">${list.title}</a></td>
+                            <td>${list.userEntity.name}</td>
+                            <td>${list.count}</td>
+                            <td><fmt:parseDate value="${list.createDate}"
+                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+                                <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
                             </td>
                         </tr>
-                        <tr>
-                            <td><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 350px"></textarea></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class="btn btn-primary form-control" id="write">글쓰기</button>
-            </form>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <a href="board/write" class="btn btn-primary pull-right">글쓰기</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="../resources/js/bootstrap.js"></script>
+    <script src="/../resources/js/bootstrap.js"></script>
 
 </body>
 </html>

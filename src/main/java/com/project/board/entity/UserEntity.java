@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "USER")
 @Data
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USER_SEQ")
     private Long id;
 
     @Column(unique = true, length = 20, nullable = false)
@@ -29,6 +31,9 @@ public class UserEntity {
     private String userGender;
     @Column(nullable = false, unique = true)
     private String userEmail;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<WriteEntity> writes = new ArrayList<>();
 
     private String role;
 

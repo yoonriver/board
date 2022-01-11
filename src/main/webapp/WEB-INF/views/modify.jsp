@@ -58,7 +58,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form method="POST" action="/board/write">
+            <form id="writesModify" onsubmit="writesModify(${writes.id}, event)">
                 <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                     <thead>
                         <tr>
@@ -70,24 +70,25 @@
                             <td width=100%>
                                 <label>카테고리</label>
                                 <select id="category" name="category">
-                                    <option value="news">소식</option>
-                                    <option value="review">리뷰</option>
-                                    <option value="chat">잡담</option>
+                                    <option value="news" <c:if test="${writes.category eq 'news'}">selected</c:if> >소식</option>
+                                    <option value="review" <c:if test="${writes.category eq 'review'}">selected</c:if> >리뷰</option>
+                                    <option value="chat" <c:if test="${writes.category eq 'chat'}">selected</c:if> >잡담</option>
                                 </select>
-                                <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"/>
+                                <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" value="${writes.title}"/>
                             </td>
                         </tr>
                         <tr>
-                            <td><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 350px"></textarea></td>
+                            <td><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 350px">${writes.content}</textarea></td>
                         </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-primary form-control" id="write">글쓰기</button>
+                <button class="btn btn-primary form-control" id="modify">수정하기</button>
             </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="../resources/js/bootstrap.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <script src="/resources/js/modify.js"></script>
 
 </body>
 </html>
