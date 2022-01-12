@@ -3,11 +3,14 @@ package com.project.board.web;
 import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.dto.CMRespDto;
 import com.project.board.dto.WriteDto;
+import com.project.board.entity.CommentEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationApiException;
 import com.project.board.handler.ex.CustomValidationException;
+import com.project.board.repository.CommentRepository;
 import com.project.board.repository.WriteRepository;
+import com.project.board.service.CommentService;
 import com.project.board.service.WriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ public class BoardController {
 
     private final WriteService writeService;
     private final WriteRepository writeRepository;
+    private final CommentService commentService;
+    private final CommentRepository commentRepository;
 
     @GetMapping({"/", "/main"})
     public String main() {
@@ -47,6 +53,10 @@ public class BoardController {
 
         WriteEntity writeEntity = writeService.글보기(writeId, principalDetails);
         model.addAttribute("writes", writeEntity);
+
+        // 댓글 목록 불러오기
+        List<CommentEntity> commentList = commentService.댓글불러오기(writeId);
+        model.addAttribute("commentList", commentList);
 
         return "detail";
     }
@@ -75,6 +85,18 @@ public class BoardController {
         model.addAttribute("writes", writeEntity);
 
         return "modify";
+    }
+
+    @GetMapping("/board/comment/modify/{commentId}")
+    public String commentModify(@PathVariable Long commentId, Model model) {
+
+        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
+            return new CustomValidationException("존재하지 않는 댓글 입니다.");
+        });
+
+        model.addAttribute("comment",commentEntity);
+
+        return "commentModify";
     }
 
 }

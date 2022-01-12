@@ -1,5 +1,6 @@
 package com.project.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class UserEntity {
     private String userEmail;
 
     @OneToMany(mappedBy = "userEntity")
+    @JsonIgnoreProperties({"userEntity"})
     private List<WriteEntity> writes = new ArrayList<>();
 
     private String role;

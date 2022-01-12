@@ -62,7 +62,7 @@
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
-                        <th colspan="2" style="background-color: #eeeeee; text-align: center;">글</th>
+                        <th colspan="2" style="background-color: #eeeeee; text-align: center;">게시글</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +85,7 @@
                     <tr>
                         <td>
                             <label>이름</label>
-                            ${writes.userEntity.name}<br>
+                            ${writes.userEntity.name}
                             <label>조회수</label>
                             ${writes.count}
                         </td>
@@ -95,20 +95,74 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary btn-sm form-control" onclick = "location.href = '/board'">글 목록</button>
-            <button class="btn btn-primary btn-sm form-control" onclick = "">추천</button>
+            <button class="btn btn-primary btn-sm" onclick = "">추천</button>
+            <button class="btn btn-primary btn-sm " onclick = "location.href = '/board'">글 목록</button>
             <c:choose>
                 <c:when test="${principal.userEntity.id == writes.userEntity.id}">
-                    <button class="btn btn-primary btn-sm form-control" onclick = "location.href = '/board/modify/${writes.id}'">글 수정</button>
-                    <button class="btn btn-primary btn-sm form-control" onclick = "writesDelete(${writes.id}, event)">글 삭제</button>
+                    <button class="btn btn-primary btn-sm" onclick = "location.href = '/board/modify/${writes.id}'">글 수정</button>
+                    <button class="btn btn-primary btn-sm" onclick = "writesDelete(${writes.id}, event)">글 삭제</button>
                 </c:when>
             </c:choose>
         </div>
     </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                <thead>
+                    <tr>
+                        <th colspan="2" style="background-color: #eeeeee; text-align: center;">댓글</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: left">
+                    <c:forEach items="${commentList}" var="comment">
+                        <tr>
+                            <td>
+                                <label>이름</label> ${comment.userEntity.name}
+                                &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>&nbsp;
+                                <c:choose>
+                                    <c:when test="${principal.userEntity.id == comment.userEntity.id}">
+                                        <button class="btn-primary btn-sm" onclick="location.href='/board/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
+                                        <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, event)">댓글 삭제</button>
+                                    </c:when>
+                                </c:choose>
+                                <br>
+                                <label>내용</label> ${comment.content}
+                                <br>
+                                <br>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+            <div class="row">
+                <form id="comment" onsubmit="comment(${writes.id}, event)">
+                    <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background-color: #eeeeee; text-align: center;">댓글 작성</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><textarea class="form-control" placeholder="댓글" name="content" maxlength="2048" style="height: 100px"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary form-control">댓글 쓰기</button>
+                </form>
+            </div>
+        </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/resources/js/bootstrap.js"></script>
+    <script src="/resources/js/comment.js"></script>
     <script src="/resources/js/modify.js"></script>
-
 
 </body>
 </html>

@@ -71,7 +71,6 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${writeList}" var="list">
-
                         <tr>
                             <td>${list.id}</td>
                             <td><a href="board/${list.id}">${list.title}</a></td>

@@ -3,10 +3,12 @@ package com.project.board.service;
 import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
+import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationApiException;
 import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.WriteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,15 +33,20 @@ public class WriteService {
     }
 
     @Transactional
-    public void 글수정(Long writeId, WriteEntity writeEntity) {
+    public void 글수정(Long writeId, WriteEntity writeEntity, UserEntity userEntity) {
 
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
             return new CustomValidationApiException("게시글이 없습니다.");
         });
 
+        if(userEntity.getId() == writeEntity.getUserEntity().getId()) {
         findWrites.setTitle(writeEntity.getTitle());
         findWrites.setCategory(writeEntity.getCategory());
         findWrites.setContent(writeEntity.getContent());
+
+        }else {
+            throw new CustomUpdateValidationException("수정 할 권한이 없습니다.");
+        }
 
     }
 
@@ -59,7 +66,16 @@ public class WriteService {
     }
     
     @Transactional
-    public void 글삭제(Long writeId) {
-        writeRepository.deleteById(writeId);
+    public void 글삭제(Long writeId, UserEntity userEntity) {
+
+        WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
+            return new CustomValidationApiException("게시글이 없습니다.");
+        });
+
+        if(userEntity.getId() == findWrites.getUserEntity().getId()) {
+            writeRepository.deleteById(writeId);
+        }else {
+            throw new CustomUpdateValidationException("삭제 할 권한이 없습니다.");
+        }
     }
 }
