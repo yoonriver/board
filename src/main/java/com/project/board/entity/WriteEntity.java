@@ -1,5 +1,6 @@
 package com.project.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,15 +29,15 @@ public class WriteEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
+    @JsonIgnoreProperties({"writeEntity"})
     private UserEntity userEntity;
+
+    @OneToMany(mappedBy = "writeEntity")
+    @JsonIgnoreProperties({"comments"})
+    private List<CommentEntity> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private LocalDateTime createDate;
-
-    @OneToMany(mappedBy = "writeEntity")
-    @JsonIgnoreProperties({"writeEntity"})
-    private List<CommentEntity> comments = new ArrayList<>();
-
     @PrePersist
     public void createDate() {
         this.createDate = LocalDateTime.now();

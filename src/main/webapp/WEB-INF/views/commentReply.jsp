@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -50,7 +50,7 @@
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <li><a href="join">회원 정보 보기</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -58,37 +58,28 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row">
-            <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
-                <thead>
-                    <tr>
-                        <th style="background-color: #eeeee; text-align: center;">번호</th>
-                        <th style="background-color: #eeeee; text-align: center;">제목</th>
-                        <th style="background-color: #eeeee; text-align: center;">작성자</th>
-                        <th style="background-color: #eeeee; text-align: center;">조회수</th>
-                        <th style="background-color: #eeeee; text-align: center;">작성일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${writeList}" var="list">
-                        <tr>
-                            <td>${list.id}</td>
-                            <td><a href="board/${list.id}">${list.title}</a></td>
-                            <td>${list.userEntity.name}</td>
-                            <td>${list.count}</td>
-                            <td><fmt:parseDate value="${list.createDate}"
-                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                                <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-            <a href="board/write" class="btn btn-primary pull-right">글쓰기</a>
+            <div class="row">
+                <form id="comment" onsubmit="commentReply(${comment.writeEntity.id}, event)">
+                    <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background-color: #eeeeee; text-align: center;">대댓글 달기</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <input type="hidden" name="parentId" value="${comment.id}" />
+                                <td><textarea class="form-control" placeholder="댓글" name="content" maxlength="2048" style="height: 100px"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary form-control">대댓글 등록</button>
+                </form>
+            </div>
         </div>
-    </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="/../resources/js/bootstrap.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <script src="/resources/js/comment.js"></script>
 
 </body>
 </html>

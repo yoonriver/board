@@ -11,4 +11,6 @@ public class CommentDto {
     @NotBlank
     private String content;
 
+    private Long parentId;
+
 }

@@ -24,13 +24,17 @@ public class CommentApiController {
     private final CommentRepository commentRepository;
 
     @PostMapping("/api/comment/{writeId}")
-    public CMRespDto<?> parentComment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public CMRespDto<?> comment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        commentService.댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent());
 
-        System.out.println(commentDto.getContent());
+        return new CMRespDto<>(1, "댓글 쓰기 성공", null);
+    }
 
-        CommentEntity commentEntity = commentService.부모댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent());
+    @PostMapping("/api/comment/reply/{writeId}")
+    public CMRespDto<?> replyComment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        commentService.대댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent(), commentDto.getParentId());
 
-        return new CMRespDto<>(1, "댓글 쓰기 성공", commentEntity);
+        return new CMRespDto<>(1, "댓글 쓰기 성공", null);
     }
 
 

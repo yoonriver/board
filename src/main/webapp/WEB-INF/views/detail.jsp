@@ -50,7 +50,7 @@
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="join">회원 정보 보기</a></li>
+                          <li><a href="profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -120,10 +120,11 @@
                         <tr>
                             <td>
                                 <label>이름</label> ${comment.userEntity.name}
-                                &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>&nbsp;
+                                &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>
+                                &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}'">대댓글</button>&nbsp;
                                 <c:choose>
                                     <c:when test="${principal.userEntity.id == comment.userEntity.id}">
-                                        <button class="btn-primary btn-sm" onclick="location.href='/board/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
+                                        <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
                                         <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, event)">댓글 삭제</button>
                                     </c:when>
                                 </c:choose>

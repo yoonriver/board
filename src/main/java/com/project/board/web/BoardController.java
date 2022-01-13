@@ -21,8 +21,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import javax.xml.stream.events.Comment;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,6 +56,7 @@ public class BoardController {
 
         // 댓글 목록 불러오기
         List<CommentEntity> commentList = commentService.댓글불러오기(writeId);
+
         model.addAttribute("commentList", commentList);
 
         return "detail";
@@ -87,16 +88,6 @@ public class BoardController {
         return "modify";
     }
 
-    @GetMapping("/board/comment/modify/{commentId}")
-    public String commentModify(@PathVariable Long commentId, Model model) {
 
-        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-            return new CustomValidationException("존재하지 않는 댓글 입니다.");
-        });
-
-        model.addAttribute("comment",commentEntity);
-
-        return "commentModify";
-    }
 
 }
