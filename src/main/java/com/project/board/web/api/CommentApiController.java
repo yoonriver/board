@@ -25,18 +25,10 @@ public class CommentApiController {
 
     @PostMapping("/api/comment/{writeId}")
     public CMRespDto<?> comment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        commentService.댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent());
+        commentService.댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent(), commentDto.getParentId());
 
         return new CMRespDto<>(1, "댓글 쓰기 성공", null);
     }
-
-    @PostMapping("/api/comment/reply/{writeId}")
-    public CMRespDto<?> replyComment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        commentService.대댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent(), commentDto.getParentId());
-
-        return new CMRespDto<>(1, "댓글 쓰기 성공", null);
-    }
-
 
     @PutMapping("/api/comment/modify/{commentId}")
     public CMRespDto<?> modify(@PathVariable Long commentId, @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {

@@ -30,7 +30,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="main.jsp">메인</a></li>
+                <li><a href="/main">메인</a></li>
                 <li><a class="active" href="/board">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -45,12 +45,12 @@
                        </sec:authorize>
                    <ul class="dropdown-menu">
                        <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="auth/login">로그인</a></li>
-                          <li><a href="auth/join">회원가입</a></li>
+                          <li class="active"><a href="/auth/login">로그인</a></li>
+                          <li><a href="/auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="join">회원 정보 보기</a></li>
+                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -59,7 +59,7 @@
     </nav>
     <div class="container">
             <div class="row">
-                <form id="comment" onsubmit="commentReply(${comment.writeEntity.id}, event)">
+                <form id="comment" onsubmit="comment(${comment.writeEntity.id}, event)">
                     <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                         <thead>
                             <tr>

@@ -33,18 +33,29 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/">메인</a></li>
-                <li><a href="/board">게시판</a></li>
+                <li><a href="/main">메인</a></li>
+                <li><a class="active" href="/board">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle"
-                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                            aria-expanded="false">접속하기<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li class="active"><a href="login">로그인</a></li>
-                        <li><a href="join">회원가입</a></li>
-                    </ul>
+                   <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true"
+                       <sec:authorize access="isAnonymous()">
+                           aria-expanded="false">접속하기<span class="caret"></span></a>
+                       </sec:authorize>
+                       <sec:authorize access="isAuthenticated()">
+                           aria-expanded="false">회원메뉴<span class="caret"></span></a>
+                       </sec:authorize>
+                   <ul class="dropdown-menu">
+                       <sec:authorize access="isAnonymous()">
+                          <li class="active"><a href="/auth/login">로그인</a></li>
+                          <li><a href="/auth/join">회원가입</a></li>
+                       </sec:authorize>
+                       <sec:authorize access="isAuthenticated()">
+                          <li><a href="/logout">로그아웃</a></li>
+                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                       </sec:authorize>
+                   </ul>
                 </li>
             </ul>
         </div>

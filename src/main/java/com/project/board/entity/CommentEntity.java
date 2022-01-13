@@ -37,9 +37,14 @@ public class CommentEntity {
     private int likes;
     private int isDeleted; // 0이면 삭제, 1이면 삭제되지 않음
 
-    int ref; // 글 그룹을 의미 = 쿼리를 실행시켜 가장 큰 ref 값을 가져온 후 +1을 더해준다.
-    int re_step;
-    int re_level;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
+    @JsonIgnoreProperties("parent")
+    private CommentEntity parent;
+
+    @OneToMany(mappedBy = "parent")
+    @JsonIgnoreProperties("children")
+    private List<CommentEntity> children;
 
     @Column(nullable = false)
     private LocalDateTime createDate;

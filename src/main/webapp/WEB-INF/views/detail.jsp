@@ -30,7 +30,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="main.jsp">메인</a></li>
+                <li><a href="/main">메인</a></li>
                 <li><a class="active" href="/board">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -45,12 +45,12 @@
                        </sec:authorize>
                    <ul class="dropdown-menu">
                        <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="auth/login">로그인</a></li>
-                          <li><a href="auth/join">회원가입</a></li>
+                          <li class="active"><a href="/auth/login">로그인</a></li>
+                          <li><a href="/auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -134,6 +134,24 @@
                                 <br>
                             </td>
                         </tr>
+                        <c:forEach items="${comment.children}" var="child">
+                            <tr>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↪<label>이름</label> ${child.userEntity.name}
+                                    &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>
+                                    <c:choose>
+                                        <c:when test="${principal.userEntity.id == child.userEntity.id}">
+                                            <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${child.id}'">댓글 수정</button>&nbsp;
+                                            <button class="btn-primary btn-sm" onclick="commentDelete(${child.id}, ${writes.id}, event)">댓글 삭제</button>
+                                        </c:when>
+                                    </c:choose>
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>내용</label> ${child.content}
+                                    <br>
+                                    <br>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                 </tbody>
             </table>

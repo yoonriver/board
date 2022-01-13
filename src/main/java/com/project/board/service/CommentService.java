@@ -26,15 +26,10 @@ public class CommentService {
     final private WriteRepository writeRepository;
 
     @Transactional
-    public CommentEntity 댓글쓰기(Long userId, Long writeId, String content) {
+    public CommentEntity 댓글쓰기(Long userId, Long writeId, String content, Long parentId) {
 
         UserEntity userEntity = authRepository.findById(userId).get();
         WriteEntity writeEntity = writeRepository.findById(writeId).get();
-
-        int ref = 0;
-        if(commentRepository.isExists(writeId) != 0) {
-            ref = commentRepository.refMax() + 1;
-        }
         CommentEntity commentEntity = new CommentEntity();
 
         commentEntity.setUserEntity(userEntity);
@@ -42,9 +37,11 @@ public class CommentService {
         commentEntity.setContent(content);
         commentEntity.setLikes(0);
         commentEntity.setIsDeleted(1);
-        commentEntity.setRef(ref);
-        commentEntity.setRe_level(1);
-        commentEntity.setRe_step(1);
+
+        if(parentId != null) {
+            CommentEntity parent = 댓글한개선택(parentId);
+            commentEntity.setParent(parent);
+        }
 
         commentRepository.save(commentEntity);
 
@@ -57,10 +54,6 @@ public class CommentService {
         UserEntity userEntity = authRepository.findById(userId).get();
         WriteEntity writeEntity = writeRepository.findById(writeId).get();
         CommentEntity parentComment = 댓글한개선택(parentId);
-        int ref = parentComment.getRef();
-        int re_level = parentComment.getRe_level();
-        int re_step = parentComment.getRe_step();
-        re_level증가(ref, re_level);
 
         CommentEntity commentEntity = new CommentEntity();
 
@@ -69,19 +62,12 @@ public class CommentService {
         commentEntity.setContent(content);
         commentEntity.setLikes(0);
         commentEntity.setIsDeleted(1);
-        commentEntity.setRef(ref);
-        commentEntity.setRe_level(re_level+1);
-        commentEntity.setRe_step(re_step+1);
 
         commentRepository.save(commentEntity);
 
         return commentEntity;
     }
 
-    @Transactional
-    public void re_level증가(int ref, int re_level) {
-        commentRepository.re_stepUp(ref, re_level);
-    }
 
     @Transactional
     public List<CommentEntity> 댓글불러오기(Long writeId) {
