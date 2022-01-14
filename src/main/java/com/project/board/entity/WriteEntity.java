@@ -36,8 +36,16 @@ public class WriteEntity {
     @JsonIgnoreProperties({"comments"})
     private List<CommentEntity> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "writeEntity")
+    @JsonIgnoreProperties({"writeEntity"})
+    private List<LikesEntity> likes = new ArrayList<>();
+
+    @Transient
+    private int isLikes; // 1이면 추천을 누른 상태
+
     @Column(nullable = false)
     private LocalDateTime createDate;
+
     @PrePersist
     public void createDate() {
         this.createDate = LocalDateTime.now();

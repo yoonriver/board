@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -66,6 +67,7 @@
                         <th style="background-color: #eeeee; text-align: center;">제목</th>
                         <th style="background-color: #eeeee; text-align: center;">작성자</th>
                         <th style="background-color: #eeeee; text-align: center;">조회수</th>
+                        <th style="background-color: #eeeee; text-align: center;">추천수</th>
                         <th style="background-color: #eeeee; text-align: center;">작성일</th>
                     </tr>
                 </thead>
@@ -73,12 +75,13 @@
                     <c:forEach items="${writeList}" var="list">
                         <tr>
                             <td>${list.id}</td>
-                            <td><a href="board/${list.id}">${list.title}</a></td>
+                            <td><a href="/board/${list.id}">${list.title}</a></td>
                             <td>${list.userEntity.name}</td>
                             <td>${list.count}</td>
+                            <td>${fn:length(list.likes)}</td>
                             <td><fmt:parseDate value="${list.createDate}"
                                     pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                                <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
+                                <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedDateTime}" />
                             </td>
                         </tr>
                     </c:forEach>

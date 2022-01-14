@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -72,14 +73,14 @@
                             <label>날짜&nbsp;</label>
                             <fmt:parseDate value="${writes.createDate}"
                                pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                            <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" /><br>
+                            <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedDateTime}" /><br>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label>제목</label>
                             ${writes.title} &nbsp;&nbsp;
-                            <label>추천수&nbsp;</label>0<br>
+                            <label>추천수&nbsp;</label><b id="likesCount">${fn:length(writes.likes)}</b><br>
                         </td>
                     </tr>
                     <tr>
@@ -95,7 +96,14 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary btn-sm" onclick = "">추천</button>
+            <c:choose>
+                <c:when test="${writes.isLikes == 1}">
+                    <button id="likesButton" class="btn btn-secondary btn-sm" onclick = "likes(${writes.id}, event)">추천 취소</button>
+                </c:when>
+                <c:otherwise>
+                    <button id="likesButton" class="btn btn-primary btn-sm" onclick = "likes(${writes.id}, event)">추천</button>
+                </c:otherwise>
+            </c:choose>
             <button class="btn btn-primary btn-sm " onclick = "location.href = '/board'">글 목록</button>
             <c:choose>
                 <c:when test="${principal.userEntity.id == writes.userEntity.id}">
@@ -120,12 +128,28 @@
                         <tr>
                             <td>
                                 <label>이름</label> ${comment.userEntity.name}
-                                &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>
-                                &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}'">대댓글</button>&nbsp;
+                                &nbsp;&nbsp;<label>등록 시간&nbsp;</label>
+                                <fmt:parseDate value="${comment.createDate}"
+                                   pattern="yyyy-MM-dd'T'HH:mm" var="parsedCommentDateTime" type="both" />
+                                <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedCommentDateTime}" />
+                                &nbsp;&nbsp;
+                                <c:choose>
+                                    <c:when test="${comment.isDeleted == 1}">
+                                    &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}'">대댓글</button>&nbsp;
+                                    </c:when>
+                                </c:choose>
                                 <c:choose>
                                     <c:when test="${principal.userEntity.id == comment.userEntity.id}">
-                                        <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
-                                        <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, event)">댓글 삭제</button>
+                                        <c:choose>
+                                            <c:when test="${comment.isDeleted == 1}">
+                                                <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${comment.isDeleted == 1 or empty comment.children}">
+                                                <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, event)">댓글 삭제</button>
+                                            </c:when>
+                                        </c:choose>
                                     </c:when>
                                 </c:choose>
                                 <br>
@@ -138,7 +162,11 @@
                             <tr>
                                 <td>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↪<label>이름</label> ${child.userEntity.name}
-                                    &nbsp;&nbsp;<label>추천수&nbsp;</label>0&nbsp;&nbsp; <button class="btn-primary btn-sm" onclick = "">추천</button>
+                                    &nbsp;&nbsp;<label>등록 시간&nbsp;</label>
+                                    <fmt:parseDate value="${comment.createDate}"
+                                       pattern="yyyy-MM-dd'T'HH:mm" var="parsedCommentDateTime" type="both" />
+                                    <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedCommentDateTime}" />
+                                    &nbsp;&nbsp;
                                     <c:choose>
                                         <c:when test="${principal.userEntity.id == child.userEntity.id}">
                                             <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${child.id}'">댓글 수정</button>&nbsp;
@@ -182,6 +210,7 @@
     <script src="/resources/js/bootstrap.js"></script>
     <script src="/resources/js/comment.js"></script>
     <script src="/resources/js/modify.js"></script>
+    <script src="/resources/js/likes.js"></script>
 
 </body>
 </html>

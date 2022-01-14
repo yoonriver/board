@@ -37,12 +37,12 @@ public class CommentEntity {
     private int likes;
     private int isDeleted; // 0이면 삭제, 1이면 삭제되지 않음
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_ID")
     @JsonIgnoreProperties("parent")
     private CommentEntity parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("children")
     private List<CommentEntity> children;
 

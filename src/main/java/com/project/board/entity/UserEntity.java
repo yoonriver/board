@@ -37,6 +37,10 @@ public class UserEntity {
     @JsonIgnoreProperties({"userEntity"})
     private List<WriteEntity> writes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "userEntity")
+    @JsonIgnoreProperties({"userEntity"})
+    private List<LikesEntity> likesEntities = new ArrayList<>();
+
     private String role;
 
     @Column(nullable = false)

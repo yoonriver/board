@@ -10,6 +10,8 @@ import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.service.UpdateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,7 @@ public class ProfileApiController {
     private final UpdateService updateService;
 
     @PutMapping("api/profile/update/{id}")
-    public CMRespDto<?> update(@PathVariable Long id,
+    public ResponseEntity<?> update(@PathVariable Long id,
                                @Valid UserUpdateDto userUpdateDto,
                                BindingResult bindingResult,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -35,7 +37,7 @@ public class ProfileApiController {
 
             principalDetails.setUserEntity(userEntity);
 
-            return new CMRespDto<>(1, "회원 수정 완료", userEntity);
+            return new ResponseEntity<>(new CMRespDto<>(1, "회원 수정 완료", userEntity), HttpStatus.OK);
 
         }else {
             throw new CustomUpdateValidationException("현재 비밀번호가 아닙니다.");
@@ -44,7 +46,7 @@ public class ProfileApiController {
     }
 
     @PutMapping("api/profile/pwUpdate/{id}")
-    public CMRespDto<?> pwUpdate(@PathVariable Long id,
+    public ResponseEntity<?> pwUpdate(@PathVariable Long id,
                                @Valid UserPwUpdateDto userPwUpdateDto,
                                BindingResult bindingResult,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -56,7 +58,7 @@ public class ProfileApiController {
 
                 principalDetails.setUserEntity(userEntity);
 
-                return new CMRespDto<>(1, "비밀번호 수정 완료", userEntity);
+                return new ResponseEntity<>(new CMRespDto<>(1, "비밀번호 수정 완료", userEntity), HttpStatus.OK);
 
             }else {
                 throw new CustomPwUpdateValidationException("확인 비밀번호가 일치하지 않습니다.");

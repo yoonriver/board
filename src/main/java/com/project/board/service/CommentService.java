@@ -48,26 +48,6 @@ public class CommentService {
         return commentEntity;
     }
     
-    @Transactional
-    public CommentEntity 대댓글쓰기(Long userId, Long writeId, String content, Long parentId) {
-
-        UserEntity userEntity = authRepository.findById(userId).get();
-        WriteEntity writeEntity = writeRepository.findById(writeId).get();
-        CommentEntity parentComment = 댓글한개선택(parentId);
-
-        CommentEntity commentEntity = new CommentEntity();
-
-        commentEntity.setUserEntity(userEntity);
-        commentEntity.setWriteEntity(writeEntity);
-        commentEntity.setContent(content);
-        commentEntity.setLikes(0);
-        commentEntity.setIsDeleted(1);
-
-        commentRepository.save(commentEntity);
-
-        return commentEntity;
-    }
-
 
     @Transactional
     public List<CommentEntity> 댓글불러오기(Long writeId) {
@@ -101,16 +81,22 @@ public class CommentService {
     }
 
     @Transactional
-    public void 댓글삭제(Long commentId, UserEntity userEntity) {
+    public void 댓글삭제(Long commentId, UserEntity userEntity, int size) {
 
         CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-            return new CustomValidationApiException("댓글이 없습니다.");
+            throw new CustomValidationApiException("댓글이 없습니다.");
         });
 
-        if(userEntity.getId() == commentEntity.getUserEntity().getId()) {
-            commentRepository.deleteById(commentId);
-        }else {
-            throw new CustomUpdateValidationException("댓글을 삭제 할 권한이 없습니다.");
+        if(size != 0) {
+            commentEntity.setIsDeleted(0);
+            commentEntity.setContent("(삭제 된 댓글입니다.)");
+        }else{
+            if (userEntity.getId() == commentEntity.getUserEntity().getId()) {
+                commentRepository.deleteById(commentId);
+            } else {
+                throw new CustomUpdateValidationException("댓글을 삭제 할 권한이 없습니다.");
+            }
         }
+
     }
 }

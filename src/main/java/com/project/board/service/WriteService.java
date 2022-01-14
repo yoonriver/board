@@ -1,6 +1,7 @@
 package com.project.board.service;
 
 import com.project.board.config.auth.PrincipalDetails;
+import com.project.board.entity.LikesEntity;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomUpdateValidationException;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -60,6 +62,14 @@ public class WriteService {
         // 글 쓴 본인이 아니면 조회수+1
         if(writeEntity.getUserEntity().getId() != principalDetails.getUserEntity().getId()) {
             writeEntity.setCount(writeEntity.getCount() + 1);
+        }
+
+        // 추천 상태 확인
+        List<LikesEntity> likes = writeEntity.getLikes();
+        for (LikesEntity like : likes) {
+            if(like.getUserEntity().getId() == principalDetails.getUserEntity().getId()) {
+                writeEntity.setIsLikes(1);
+            }
         }
 
         return writeEntity;

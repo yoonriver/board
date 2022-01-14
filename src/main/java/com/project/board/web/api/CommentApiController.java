@@ -10,6 +10,8 @@ import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.repository.CommentRepository;
 import com.project.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,25 +26,27 @@ public class CommentApiController {
     private final CommentRepository commentRepository;
 
     @PostMapping("/api/comment/{writeId}")
-    public CMRespDto<?> comment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<?> comment(@Valid CommentDto commentDto, BindingResult bindingResult, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.댓글쓰기(principalDetails.getUserEntity().getId(), writeId, commentDto.getContent(), commentDto.getParentId());
 
-        return new CMRespDto<>(1, "댓글 쓰기 성공", null);
+        return new ResponseEntity<>(new CMRespDto<>(1, "댓글 쓰기 성공", null), HttpStatus.CREATED);
     }
 
     @PutMapping("/api/comment/modify/{commentId}")
-    public CMRespDto<?> modify(@PathVariable Long commentId, @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<?> modify(@PathVariable Long commentId, @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.댓글수정(commentId, commentDto.getContent(), principalDetails.getUserEntity());
 
-        return new CMRespDto<>(1, "글 수정 완료", null);
+        return new ResponseEntity<>(new CMRespDto<>(1, "글 수정 완료", null), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/comment/delete/{commentId}")
-    public CMRespDto<?> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<?> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        commentService.댓글삭제(commentId, principalDetails.getUserEntity());
+        int size = commentRepository.getById(commentId).getChildren().size();
 
-        return new CMRespDto<>(1, "글 삭제 완료", null);
+        commentService.댓글삭제(commentId, principalDetails.getUserEntity(),size);
+
+        return new ResponseEntity<>(new CMRespDto<>(1, "글 삭제 완료", null),HttpStatus.OK);
 
     }
 
