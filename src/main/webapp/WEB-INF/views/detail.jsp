@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/main">메인</a></li>
-                <li><a class="active" href="/board">게시판</a></li>
+                <li><a class="active" href="/board/list/0">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -104,11 +104,11 @@
                     <button id="likesButton" class="btn btn-primary btn-sm" onclick = "likes(${writes.id}, event)">추천</button>
                 </c:otherwise>
             </c:choose>
-            <button class="btn btn-primary btn-sm " onclick = "location.href = '/board'">글 목록</button>
+            <button class="btn btn-primary btn-sm " onclick = "location.href = '/board/list/${pageNum}'">글 목록</button>
             <c:choose>
                 <c:when test="${principal.userEntity.id == writes.userEntity.id}">
-                    <button class="btn btn-primary btn-sm" onclick = "location.href = '/board/modify/${writes.id}'">글 수정</button>
-                    <button class="btn btn-primary btn-sm" onclick = "writesDelete(${writes.id}, event)">글 삭제</button>
+                    <button class="btn btn-primary btn-sm" onclick = "location.href = '/board/modify/${writes.id}?page=${pageNum}'">글 수정</button>
+                    <button class="btn btn-primary btn-sm" onclick = "writesDelete(${writes.id}, event, ${pageNum})">글 삭제</button>
                 </c:when>
             </c:choose>
         </div>

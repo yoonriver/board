@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="main.jsp">메인</a></li>
-                <li><a class="active" href="/board">게시판</a></li>
+                <li><a class="active" href="/board/list/0">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -72,10 +72,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${writeList}" var="list">
+                    <c:forEach items="${writeList.content}" var="list">
                         <tr>
                             <td>${list.id}</td>
-                            <td><a href="/board/${list.id}">${list.title}</a></td>
+                            <td><a href="/board/${list.id}?page=${pageNum}">${list.title}</a></td>
                             <td>${list.userEntity.name}</td>
                             <td>${list.count}</td>
                             <td>${fn:length(list.likes)}</td>
@@ -87,7 +87,28 @@
                     </c:forEach>
                 </tbody>
             </table>
-            <a href="board/write" class="btn btn-primary pull-right">글쓰기</a>
+            <c:set var="page" value="${pageNum+1}" />
+            <c:set var="startNum" value="${page-(page-1)%5 }"/> <!-- pager 작성 공식 -->
+            <c:set var="lastNum" value="${Math.ceil(page / 5) * 5}"/>
+            <c:set var="totalPage" value="${writeList.totalPages}"/>
+
+            <ul class="center">
+                <c:if test="${startNum > 1}">
+                    <a href="/board/list/${(startNum-5)-1}" class="btn btn-prev" >이전</a>
+                </c:if>
+
+            	<c:forEach var="i" begin="${startNum}" end="${lastNum}">
+            	    <c:if test="${i <= totalPage}">
+            	        <a href="/board/list/${i-1}" <c:if test="${page == i}">style="color:orange;"</c:if>>${i}</a>
+            	    </c:if>
+            	</c:forEach>
+
+            	<c:if test="${lastNum < totalPage}">
+                    <a href="/board/list/${(startNum+5)-1}" class="btn btn-prev" >다음</a>
+                </c:if>
+            </ul>
+
+            <a href="/board/write?page=0" class="btn btn-primary pull-right">글쓰기</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

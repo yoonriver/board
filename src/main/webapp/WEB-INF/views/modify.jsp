@@ -30,7 +30,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/main">메인</a></li>
-                <li><a class="active" href="/board">게시판</a></li>
+                <li><a class="active" href="/board/list/0">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -58,7 +58,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form id="writesModify" onsubmit="writesModify(${writes.id}, event)">
+            <form id="writesModify" onsubmit="writesModify(${writes.id}, event, ${pageNum})">
                 <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                     <thead>
                         <tr>

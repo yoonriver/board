@@ -38,13 +38,13 @@ public class WriteService {
     public void 글수정(Long writeId, WriteEntity writeEntity, UserEntity userEntity) {
 
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-            return new CustomValidationApiException("게시글이 없습니다.");
+            throw new CustomValidationApiException("게시글이 없습니다.");
         });
 
-        if(userEntity.getId() == writeEntity.getUserEntity().getId()) {
-        findWrites.setTitle(writeEntity.getTitle());
-        findWrites.setCategory(writeEntity.getCategory());
-        findWrites.setContent(writeEntity.getContent());
+        if(userEntity.getId() == findWrites.getUserEntity().getId()) {
+            findWrites.setTitle(writeEntity.getTitle());
+            findWrites.setCategory(writeEntity.getCategory());
+            findWrites.setContent(writeEntity.getContent());
 
         }else {
             throw new CustomUpdateValidationException("수정 할 권한이 없습니다.");

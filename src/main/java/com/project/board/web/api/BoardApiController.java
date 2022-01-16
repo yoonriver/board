@@ -29,9 +29,7 @@ public class BoardApiController {
     public ResponseEntity<?> modify(@PathVariable Long writeId, @Valid WriteDto writeDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         WriteEntity writeEntity = writeRepository.findById(writeId).get();
 
-
         writeService.글수정(writeId, writeDto.toEntity(), principalDetails.getUserEntity());
-
 
         return new ResponseEntity<>(new CMRespDto<>(1, "글 수정 완료", null), HttpStatus.OK);
     }

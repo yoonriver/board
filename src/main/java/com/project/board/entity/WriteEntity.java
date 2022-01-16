@@ -33,7 +33,7 @@ public class WriteEntity {
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "writeEntity")
-    @JsonIgnoreProperties({"comments"})
+    @JsonIgnoreProperties({"writeEntity"})
     private List<CommentEntity> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "writeEntity")
@@ -51,4 +51,16 @@ public class WriteEntity {
         this.createDate = LocalDateTime.now();
     }
 
+    @Override
+    public String toString() {
+        return "WriteEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", content='" + content + '\'' +
+                ", count=" + count +
+                ", isLikes=" + isLikes +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

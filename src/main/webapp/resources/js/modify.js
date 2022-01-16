@@ -1,4 +1,4 @@
-function writesModify(writeId, event) {
+function writesModify(writeId, event, pageNum) {
 
     event.preventDefault();
 
@@ -14,7 +14,7 @@ function writesModify(writeId, event) {
 
     }).done(res=>{
         console.log("성공", res);
-        location.href = `/board/${writeId}`;
+        location.href = `/board/${writeId}?page=${pageNum}`;
 
     }).fail(error=>{
         console.log(error);
@@ -27,7 +27,7 @@ function writesModify(writeId, event) {
 
 }
 
-function writesDelete(writeId, event) {
+function writesDelete(writeId, event, pageNum) {
     event.preventDefault();
 
     $.ajax({
@@ -36,7 +36,7 @@ function writesDelete(writeId, event) {
 
     }).done(res=>{
         console.log("성공", res);
-        location.href = `/board`;
+        location.href = `/board/list/${pageNum}`;
 
     }).fail(error=>{
         console.log(error);
