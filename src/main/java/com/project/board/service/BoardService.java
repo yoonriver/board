@@ -24,4 +24,26 @@ public class BoardService {
 
         return writeList;
     }
+
+    @Transactional
+    public Page<WriteEntity> 검색(int pageNum, String option, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum, 5, Sort.by("createDate").descending());
+        switch (option) {
+            case "titleContent" :
+                Page<WriteEntity> byTitleOrContentContaining = writeRepository.findByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(keyword, keyword, pageable);
+                return byTitleOrContentContaining;
+            case "title" :
+                Page<WriteEntity> byTitleContaining = writeRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+                return byTitleContaining;
+            case "content" :
+                Page<WriteEntity> byContentContaining = writeRepository.findByContentContainingIgnoreCase(keyword, pageable);
+                return byContentContaining;
+            case "category" :
+                Page<WriteEntity> byCategoryContainingIgnoreCase = writeRepository.findByCategoryContainingIgnoreCase(keyword, pageable);
+                return byCategoryContainingIgnoreCase;
+            default :
+                Page<WriteEntity> all = writeRepository.findAll(pageable);
+                return all;
+        }
+    }
 }

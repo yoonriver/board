@@ -94,6 +94,19 @@ public class BoardController {
         return "modify";
     }
 
+    @GetMapping("/board/search")
+    public String search(@RequestParam int page, @RequestParam String option, @RequestParam(required = false) String keyword, Model model) {
 
+        Page<WriteEntity> writeList = boardService.검색(page, option, keyword);
+
+        model.addAttribute("writeList", writeList);
+        model.addAttribute("pageNum", page);
+        model.addAttribute("search", true);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("option", option);
+
+        return "board";
+
+    }
 
 }

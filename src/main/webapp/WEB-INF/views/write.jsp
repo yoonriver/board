@@ -70,9 +70,9 @@
                             <td width=100%>
                                 <label>카테고리</label>
                                 <select id="category" name="category">
-                                    <option value="news">소식</option>
-                                    <option value="review">리뷰</option>
-                                    <option value="chat">잡담</option>
+                                    <option value="소식">소식</option>
+                                    <option value="리뷰">리뷰</option>
+                                    <option value="잡담">잡담</option>
                                 </select>
                                 <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"/>
                             </td>
