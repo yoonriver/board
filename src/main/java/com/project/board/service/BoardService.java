@@ -18,32 +18,57 @@ public class BoardService {
     private final WriteRepository writeRepository;
 
     @Transactional
-    public Page<WriteEntity> 글목록(int pageNum) {
-        Pageable pageable = PageRequest.of(pageNum, 5, Sort.by("createDate").descending());
-        Page<WriteEntity> writeList = writeRepository.findAll(pageable);
+    public Page<WriteEntity> 글목록(int pageNum, String option, String keyword, String category) {
 
-        return writeList;
-    }
-
-    @Transactional
-    public Page<WriteEntity> 검색(int pageNum, String option, String keyword) {
         Pageable pageable = PageRequest.of(pageNum, 5, Sort.by("createDate").descending());
-        switch (option) {
-            case "titleContent" :
-                Page<WriteEntity> byTitleOrContentContaining = writeRepository.findByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(keyword, keyword, pageable);
-                return byTitleOrContentContaining;
-            case "title" :
-                Page<WriteEntity> byTitleContaining = writeRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-                return byTitleContaining;
-            case "content" :
-                Page<WriteEntity> byContentContaining = writeRepository.findByContentContainingIgnoreCase(keyword, pageable);
-                return byContentContaining;
-            case "category" :
-                Page<WriteEntity> byCategoryContainingIgnoreCase = writeRepository.findByCategoryContainingIgnoreCase(keyword, pageable);
-                return byCategoryContainingIgnoreCase;
-            default :
-                Page<WriteEntity> all = writeRepository.findAll(pageable);
-                return all;
+
+        if(category == null) {
+
+            if(keyword == null || keyword.isEmpty()) {
+                Page<WriteEntity> writeList = writeRepository.findAll(pageable);
+
+                return writeList;
+
+            }else {
+                switch (option) {
+                    case "titleContent":
+                        Page<WriteEntity> byTitleOrContentContaining = writeRepository.findByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(keyword, keyword, pageable);
+                        return byTitleOrContentContaining;
+                    case "title":
+                        Page<WriteEntity> byTitleContaining = writeRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+                        return byTitleContaining;
+                    case "content":
+                        Page<WriteEntity> byContentContaining = writeRepository.findByContentContainingIgnoreCase(keyword, pageable);
+                        return byContentContaining;
+                    default:
+                        Page<WriteEntity> all = writeRepository.findAll(pageable);
+                        return all;
+                }
+            }
+
+        }else {
+            if(keyword == null || keyword.isEmpty()) {
+                Page<WriteEntity> writeList = writeRepository.findByCategoryContainingIgnoreCase(category, pageable);
+
+                return writeList;
+
+            }else {
+                switch (option) {
+                    case "titleContent":
+                        Page<WriteEntity> byTitleOrContentContaining = writeRepository.findByContentContainingIgnoreCaseAndCategoryContainingOrTitleContainingIgnoreCaseAndCategoryContaining(category, keyword, pageable);
+                        return byTitleOrContentContaining;
+                    case "title":
+                        Page<WriteEntity> byTitleContaining = writeRepository.findByTitleContainingIgnoreCaseAndCategoryContaining(category, keyword, pageable);
+                        return byTitleContaining;
+                    case "content":
+                        Page<WriteEntity> byContentContaining = writeRepository.findByContentContainingIgnoreCaseAndCategoryContaining(category, keyword, pageable);
+                        return byContentContaining;
+                    default:
+                        Page<WriteEntity> all = writeRepository.findByCategoryContainingIgnoreCase(category, pageable);
+                        return all;
+                }
+            }
+
         }
     }
 }

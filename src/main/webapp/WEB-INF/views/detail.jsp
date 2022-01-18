@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/main">메인</a></li>
-                <li><a class="active" href="/board/list/0">게시판</a></li>
+                <li><a class="active" href="/board/list?page=0&keyword=&option=&category=">게시판</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
