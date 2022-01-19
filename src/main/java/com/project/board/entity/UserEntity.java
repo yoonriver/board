@@ -28,8 +28,6 @@ public class UserEntity {
     private String password;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String userGender;
     @Column(nullable = false, unique = true)
     private String userEmail;
 

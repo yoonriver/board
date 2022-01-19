@@ -75,17 +75,6 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="이름" name="name" maxlength="20" required="required">
                     </div>
-                    <div class="form-group" style="text-align: center;">
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-                                <input type="radio" name="userGender" autocomplete="off" value="남자" checked>남자
-                            </label>
-                            <label class="btn btn-primary">
-                                <input type="radio" name="userGender" autocomplete="off" value="여자">여자
-                            </label>
-                        </div>
-                    </div>
-
                     <button class="btn btn-primary form-control" id="regSubmit">회원가입</button>
                 </form>
             </div>

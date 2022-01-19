@@ -36,16 +36,7 @@ spring:
       name: test
       password: 1234
 
-  oauth2:
-    client:
-      registration:
-        facebook:
-          client-id:
-          client-secret:
-          scope:
-            - public_profile
-            - email
-
+#  oauth 가져오기
   profiles:
     include: oauth
 

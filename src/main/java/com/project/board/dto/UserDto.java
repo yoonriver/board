@@ -16,8 +16,6 @@ public class UserDto {
     @NotBlank
     private String name;
     @NotBlank
-    private String userGender;
-    @NotBlank
     private String userEmail;
 
     public UserEntity toEntity() {
@@ -26,7 +24,6 @@ public class UserDto {
                     .username(username)
                     .password(password)
                     .name(name)
-                    .userGender(userGender)
                     .userEmail(userEmail)
                     .build();
 
