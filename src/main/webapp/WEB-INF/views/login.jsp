@@ -17,6 +17,10 @@
     #loginCheck {
         color : red;
     }
+    img {
+        display : block;
+        margin : auto;
+    }
     </style>
 </head>
 
@@ -75,9 +79,13 @@
                         <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" />
                     </div>
                     <button class="btn btn-primary form-control">로그인</button>
+
                 </form>
                     <br/>
                     <button class="btn btn-primary form-control" onclick="location.href='/auth/join'">회원가입</button>
+                    <br/>
+                    <br/>
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=cd71d24ba09df178e17c6c59fa8289c5&redirect_uri=http://localhost:8080/auth/kakao/callback&response_type=code"><img src="/../resources/image/kakao_login_button.png"/></a>
             </div>
         </div>
     </div>
