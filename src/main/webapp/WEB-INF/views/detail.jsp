@@ -104,7 +104,7 @@
                     <button id="likesButton" class="btn btn-primary btn-sm" onclick = "likes(${writes.id}, event)">추천</button>
                 </c:otherwise>
             </c:choose>
-            <button class="btn btn-primary btn-sm " onclick = "location.href = '/board/list/${pageNum}'">글 목록</button>
+            <button class="btn btn-primary btn-sm " onclick = "location.href = '/board/list?page=${pageNum}&keyword=&option=&category='">글 목록</button>
             <c:choose>
                 <c:when test="${principal.userEntity.id == writes.userEntity.id}">
                     <button class="btn btn-primary btn-sm" onclick = "location.href = '/board/modify/${writes.id}?page=${pageNum}'">글 수정</button>
@@ -135,7 +135,7 @@
                                 &nbsp;&nbsp;
                                 <c:choose>
                                     <c:when test="${comment.isDeleted == 1}">
-                                    &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}'">대댓글</button>&nbsp;
+                                    &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}?page=${pageNum}'">대댓글</button>&nbsp;
                                     </c:when>
                                 </c:choose>
                                 <c:choose>
@@ -189,7 +189,7 @@
     <br>
     <div class="container">
             <div class="row">
-                <form id="comment" onsubmit="comment(${writes.id}, event)">
+                <form id="comment" onsubmit="comment(${writes.id}, event, ${pageNum})">
                     <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                         <thead>
                             <tr>

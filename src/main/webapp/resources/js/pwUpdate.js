@@ -4,8 +4,6 @@ function update(userId, event) {
 
     let data = $("#pwUpdate").serialize();
 
-    console.log(data);
-
     $.ajax({
         type: "put",
         url: `/api/profile/pwUpdate/${userId}`,
@@ -16,7 +14,7 @@ function update(userId, event) {
     }).done(res=>{
         console.log("성공", res);
         alert("비밀번호가 정상적으로 변경되었습니다.");
-        location.href = `update`;
+        location.href = `/profile/${userId}/update`;
 
     }).fail(error=>{
         if(error.data == null) {

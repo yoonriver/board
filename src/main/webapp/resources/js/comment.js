@@ -1,4 +1,4 @@
-function comment(writeId, event) {
+function comment(writeId, event, pageNum) {
 
     event.preventDefault();
 
@@ -13,8 +13,7 @@ function comment(writeId, event) {
 
     }).done(res=>{
         console.log("성공", res);
-        location.href = `/board/${writeId}`;
-
+        location.href = `/board/${writeId}?page=${pageNum}`;
     }).fail(error=>{
         console.log(error);
         if(error.data == null) {

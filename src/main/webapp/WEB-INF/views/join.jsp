@@ -89,8 +89,7 @@
 // 아이디 유효성 검사(true = 중복 / false = 중복x)
 	$("#username").blur(function() {
 		var username = $("#username").val();
-
-		if(userId == ""){
+		if(username == "") {
             $("#idCheck").text("아이디를 입력해주세요");
             $("#idCheck").css("color", "red");
             $("#regSubmit").attr("disabled", true);
@@ -100,6 +99,7 @@
             type: "get",
             url: "/api/auth/idCheck/" + username,
             dataType: "json"
+
 		}).done(res => {
 		    if (res.data == true){
                 $("#idCheck").text("사용중인 아이디 입니다.");
@@ -151,7 +151,7 @@
 		}).fail(error => {
             console.log("오류", error);
 		});
-	})
+	});
 </script>
 
 

@@ -15,10 +15,10 @@ public class AuthApiController {
 
     private final AuthService authService;
 
-    @GetMapping("/api/auth/idCheck/{userId}")
-    public ResponseEntity<?> idCheck(@PathVariable String userId) {
+    @GetMapping("/api/auth/idCheck/{username}")
+    public ResponseEntity<?> idCheck(@PathVariable String username) {
 
-        Boolean isExists = authService.아이디확인(userId);
+        Boolean isExists = authService.아이디확인(username);
         System.out.println(isExists);
 
         return new ResponseEntity<>(new CMRespDto<>(1, "중복 확인", isExists), HttpStatus.OK);

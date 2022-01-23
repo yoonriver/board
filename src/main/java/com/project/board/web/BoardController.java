@@ -2,6 +2,7 @@ package com.project.board.web;
 
 import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.dto.CMRespDto;
+import com.project.board.dto.CommentDto;
 import com.project.board.dto.WriteDto;
 import com.project.board.entity.CommentEntity;
 import com.project.board.entity.WriteEntity;
@@ -14,6 +15,7 @@ import com.project.board.service.BoardService;
 import com.project.board.service.CommentService;
 import com.project.board.service.WriteService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.xml.stream.events.Comment;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +37,7 @@ public class BoardController {
     private final WriteRepository writeRepository;
     private final BoardService boardService;
     private final CommentService commentService;
+    private final ModelMapper modelMapper;
 
     @GetMapping({"/", "/main"})
     public String main() {
@@ -56,13 +60,15 @@ public class BoardController {
     }
 
     @GetMapping("/board/{writeId}")
-    public String posts(Model model, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int page) {
+    public String detail(Model model, @PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int page) {
 
         WriteEntity writeEntity = writeService.글보기(writeId, principalDetails);
-        model.addAttribute("writes", writeEntity);
+        WriteDto writeDto = modelMapper.map(writeEntity, WriteDto.class);
+        model.addAttribute("writes", writeDto);
 
         // 댓글 목록 불러오기
         List<CommentEntity> commentList = commentService.댓글불러오기(writeId);
+        List<CommentDto> resultList = commentList.stream().map(post -> modelMapper.map(post, CommentDto.class)).collect(Collectors.toList());
 
         model.addAttribute("commentList", commentList);
         model.addAttribute("pageNum", page);
@@ -92,7 +98,9 @@ public class BoardController {
             return new CustomValidationException("존재하지 않는 게시글 입니다.");
         });
 
-        model.addAttribute("writes", writeEntity);
+        WriteDto writeDto = modelMapper.map(writeEntity, WriteDto.class);
+
+        model.addAttribute("writes", writeDto);
         model.addAttribute("pageNum", page);
 
         return "modify";

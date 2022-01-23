@@ -51,7 +51,6 @@ public class ProfileApiController {
                                BindingResult bindingResult,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if(bCryptPasswordEncoder.matches(userPwUpdateDto.getPassword(), principalDetails.getPassword())) {
-
             if(userPwUpdateDto.getMod_password1().equals(userPwUpdateDto.getMod_password2())) {
 
                 UserEntity userEntity = updateService.비밀번호수정(id, userPwUpdateDto.toEntity(), userPwUpdateDto.getMod_password1());

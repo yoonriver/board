@@ -50,7 +50,7 @@
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <li><a href="/../profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>
@@ -59,7 +59,7 @@
     </nav>
     <div class="container">
             <div class="row">
-                <form id="comment" onsubmit="comment(${comment.writeEntity.id}, event)">
+                <form id="comment" onsubmit="comment(${comment.writeEntity.id}, event, ${pageNum})">
                     <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                         <thead>
                             <tr>

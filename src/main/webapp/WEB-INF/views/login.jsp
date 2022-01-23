@@ -44,21 +44,10 @@
                 <li class="dropdown">
                    <a href="#" class="dropdown-toggle"
                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                       <sec:authorize access="isAnonymous()">
-                           aria-expanded="false">접속하기<span class="caret"></span></a>
-                       </sec:authorize>
-                       <sec:authorize access="isAuthenticated()">
-                           aria-expanded="false">회원메뉴<span class="caret"></span></a>
-                       </sec:authorize>
+                       aria-expanded="false">접속하기<span class="caret"></span></a>
                    <ul class="dropdown-menu">
-                       <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="/auth/login">로그인</a></li>
-                          <li><a href="/auth/join">회원가입</a></li>
-                       </sec:authorize>
-                       <sec:authorize access="isAuthenticated()">
-                          <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
-                       </sec:authorize>
+                      <li class="active"><a href="/auth/login">로그인</a></li>
+                      <li><a href="/auth/join">회원가입</a></li>
                    </ul>
                 </li>
             </ul>
@@ -79,13 +68,12 @@
                         <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" />
                     </div>
                     <button class="btn btn-primary form-control">로그인</button>
-
                 </form>
                     <br/>
                     <button class="btn btn-primary form-control" onclick="location.href='/auth/join'">회원가입</button>
                     <br/>
                     <br/>
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=cd71d24ba09df178e17c6c59fa8289c5&redirect_uri=http://localhost:8080/auth/kakao/callback&response_type=code"><img src="/../resources/image/kakao_login_button.png"/></a>
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=cd71d24ba09df178e17c6c59fa8289c5&redirect_uri=http://localhost:8080/auth/kakao/callback&response_type=code"><img src="/../resources/image/kakao_login_button.png"></a>
             </div>
         </div>
     </div>

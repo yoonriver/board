@@ -1,5 +1,6 @@
 package com.project.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.board.role.Role;
 import lombok.AllArgsConstructor;
@@ -33,11 +34,13 @@ public class UserEntity {
     private String userEmail;
 
     @OneToMany(mappedBy = "userEntity")
-    @JsonIgnoreProperties({"userEntity"})
+    //@JsonIgnoreProperties({"userEntity"})
+    @JsonIgnore
     private List<WriteEntity> writes = new ArrayList<>();
 
     @OneToMany(mappedBy = "userEntity")
-    @JsonIgnoreProperties({"userEntity"})
+//    @JsonIgnoreProperties({"userEntity"})
+    @JsonIgnore
     private List<LikesEntity> likesEntities = new ArrayList<>();
 
     private Role role;

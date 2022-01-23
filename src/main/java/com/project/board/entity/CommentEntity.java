@@ -34,7 +34,6 @@ public class CommentEntity {
     private WriteEntity writeEntity;
 
     private String content;
-    private int likes;
     private int isDeleted; // 0이면 삭제, 1이면 삭제되지 않음
 
     @ManyToOne(fetch = FetchType.EAGER)

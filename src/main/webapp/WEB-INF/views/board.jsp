@@ -51,7 +51,7 @@
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
-                          <li><a href="profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
                        </sec:authorize>
                    </ul>
                 </li>

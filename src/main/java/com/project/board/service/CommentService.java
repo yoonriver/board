@@ -35,7 +35,6 @@ public class CommentService {
         commentEntity.setUserEntity(userEntity);
         commentEntity.setWriteEntity(writeEntity);
         commentEntity.setContent(content);
-        commentEntity.setLikes(0);
         commentEntity.setIsDeleted(1);
 
         if(parentId != null) {
