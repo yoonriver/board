@@ -1,6 +1,7 @@
 package com.project.board.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.board.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USER_SEQ")
     private Long id;
 
-    @Column(unique = true, length = 20, nullable = false)
+    @Column(unique = true, length = 100, nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
@@ -39,7 +40,7 @@ public class UserEntity {
     @JsonIgnoreProperties({"userEntity"})
     private List<LikesEntity> likesEntities = new ArrayList<>();
 
-    private String role;
+    private Role role;
 
     @Column(nullable = false)
     private LocalDateTime createDate;

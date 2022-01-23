@@ -1,9 +1,14 @@
 package com.project.board.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.board.dto.KakaoProfileDto;
 import com.project.board.dto.UserDto;
 import com.project.board.entity.UserEntity;
 import com.project.board.handler.ex.CustomValidationException;
+import com.project.board.role.Role;
 import com.project.board.service.AuthService;
+import com.project.board.token.OAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -86,7 +92,57 @@ public class AuthController {
                 String.class
         );
 
-        return "카카오 토큰 요청 완료 : 토큰요청에 대한 응답" + response;
+        // Gson, Json Simple, ObjectMapper
+        ObjectMapper objectMapper = new ObjectMapper();
+        OAuthToken oAuthToken = null;
+
+        try {
+            oAuthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println("카카오 액세스 토큰 : " + oAuthToken.getAccess_token());
+
+        RestTemplate rt2 = new RestTemplate();
+
+        HttpHeaders headers2 = new HttpHeaders();
+        headers2.add("Authorization", "Bearer " + oAuthToken.getAccess_token());
+        headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 =
+                new HttpEntity<>(headers2);
+
+        ResponseEntity<String> response2 = rt2.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoProfileRequest2,
+                String.class
+        );
+
+        ObjectMapper objectMapper2 = new ObjectMapper();
+        KakaoProfileDto kakaoProfileDto = null;
+
+        try {
+            kakaoProfileDto = objectMapper2.readValue(response2.getBody(), KakaoProfileDto.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+        UUID tempPassword = UUID.randomUUID(); // 회원가입을 위한 임시 패스워드 생성
+
+        UserEntity userEntity = UserEntity.builder()
+                                .username(kakaoProfileDto.getKakao_account().getEmail() + "_" + kakaoProfileDto.getId())
+                                .userEmail(kakaoProfileDto.getKakao_account().getEmail())
+                                .password(tempPassword.toString())
+                                .name(kakaoProfileDto.properties.nickname)
+                                .role(Role.USER)
+                                .build();
+
+        authService.회원가입(userEntity);
+
+        return response2.getBody();
     }
 
 

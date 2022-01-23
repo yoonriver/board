@@ -2,6 +2,7 @@ package com.project.board.service;
 
 import com.project.board.entity.UserEntity;
 import com.project.board.repository.AuthRepository;
+import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class AuthService {
         String rawPassword = userEntity.getPassword();
         String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
         userEntity.setPassword(encodedPassword);
-        userEntity.setRole("ROLE_USER");
+        userEntity.setRole(Role.USER);
 
         authRepository.save(userEntity);
 
