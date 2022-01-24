@@ -40,9 +40,9 @@ spring:
   profiles:
     include: oauth
 
-
   file:
     path: D:\Coding\upload\
+
 
 spring.main.allow-bean-definition-overriding: true
 

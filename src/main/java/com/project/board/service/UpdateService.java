@@ -21,8 +21,11 @@ public class UpdateService {
     public UserEntity 회원수정(Long id, UserEntity userDto) {
         UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationApiException("찾을 수 없는 id입니다.");});
 
-        userEntity.setUserEmail(userDto.getUserEmail());
-        userEntity.setName(userDto.getName());
+        // Validate 체크
+        if(userEntity.getOauth() == null || userEntity.getOauth().equals("")) {
+            userEntity.setUserEmail(userDto.getUserEmail());
+            userEntity.setName(userDto.getName());
+        }
 
         return userEntity;
 
@@ -32,10 +35,13 @@ public class UpdateService {
     public UserEntity 비밀번호수정(Long id, UserEntity userDto, String modPwd) {
         UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationApiException("찾을 수 없는 id입니다.");});
 
-        String rawPwd = modPwd;
-        String encPwd = bCryptPasswordEncoder.encode(rawPwd);
+        // Validate 체크
+        if(userEntity.getOauth() == null || userEntity.getOauth().equals("")) {
+            String rawPwd = modPwd;
+            String encPwd = bCryptPasswordEncoder.encode(rawPwd);
 
-        userEntity.setPassword(encPwd);
+            userEntity.setPassword(encPwd);
+        }
 
         return userEntity;
 

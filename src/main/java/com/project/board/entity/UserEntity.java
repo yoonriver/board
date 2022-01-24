@@ -45,6 +45,8 @@ public class UserEntity {
 
     private Role role;
 
+    private String oauth;
+
     @Column(nullable = false)
     private LocalDateTime createDate;
 

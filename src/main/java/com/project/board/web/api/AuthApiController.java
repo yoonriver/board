@@ -19,7 +19,6 @@ public class AuthApiController {
     public ResponseEntity<?> idCheck(@PathVariable String username) {
 
         Boolean isExists = authService.아이디확인(username);
-        System.out.println(isExists);
 
         return new ResponseEntity<>(new CMRespDto<>(1, "중복 확인", isExists), HttpStatus.OK);
     }
@@ -28,7 +27,6 @@ public class AuthApiController {
     public ResponseEntity<?> emailCheck(@PathVariable String userEmail) {
 
         Boolean isExists = authService.이메일확인(userEmail);
-        System.out.println(isExists);
 
         return new ResponseEntity<>(new CMRespDto<>(1, "중복 확인", isExists), HttpStatus.OK);
     }

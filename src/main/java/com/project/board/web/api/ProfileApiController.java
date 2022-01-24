@@ -8,11 +8,16 @@ import com.project.board.entity.UserEntity;
 import com.project.board.handler.ex.CustomPwUpdateValidationException;
 import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationException;
+import com.project.board.repository.AuthRepository;
 import com.project.board.service.UpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +36,6 @@ public class ProfileApiController {
                                @Valid UserUpdateDto userUpdateDto,
                                BindingResult bindingResult,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
         if(bCryptPasswordEncoder.matches(userUpdateDto.getPassword(), principalDetails.getPassword())) {
             UserEntity userEntity = updateService.회원수정(id, userUpdateDto.toEntity());
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -64,15 +65,15 @@
                     <h3 style="text-align: center;">비밀번호 변경</h3>
                     <div class="form-group">
                         현재 비밀번호
-                        <input type="password" class="form-control" placeholder="현재 비밀번호" name="password" maxlength="20" required="required">
+                        <input type="password" class="form-control" placeholder="현재 비밀번호" name="password" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
                     </div>
                     <div class="form-group">
                         수정 비밀번호
-                        <input type="password" class="form-control" placeholder="수정 비밀번호" name="mod_password1" maxlength="20" required="required">
+                        <input type="password" class="form-control" placeholder="수정 비밀번호" name="mod_password1" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
                     </div>
                     <div class="form-group">
                         수정 비밀번호 확인
-                        <input type="password" class="form-control" placeholder="수정 비밀번호 확인" name="mod_password2" maxlength="20" required="required">
+                        <input type="password" class="form-control" placeholder="수정 비밀번호 확인" name="mod_password2" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
                     </div>
 
                     <button class="btn btn-primary form-control" id="regSubmit">비밀번호 변경</button>

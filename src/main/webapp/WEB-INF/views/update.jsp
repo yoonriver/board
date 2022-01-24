@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -64,20 +65,20 @@
                     <h3 style="text-align: center;">회원 정보 수정</h3>
                     <div class="form-group">
                         아이디
-                        <input type="text" class="form-control" placeholder="아이디" name="username" id="username" maxlength="20" value="${principal.userEntity.username}" readonly="readonly">
+                        <input  type="text" class="form-control" placeholder="아이디" name="username" id="username" maxlength="20" value="${principal.userEntity.username}" readonly="readonly">
                     </div>
                     <div class="form-group">
                         수정을 위해 현재 비밀번호 입력
-                        <input type="password" class="form-control" placeholder="현재 비밀번호" name="password" maxlength="20" required="required">
+                        <input type="password" class="form-control" placeholder="현재 비밀번호" name="password" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
                     </div>
                     <div class="form-group">
                         이메일
-                        <input type="email" class="form-control" placeholder="이메일" name="userEmail" id="userEmail" maxlength="20" required="required" value="${principal.userEntity.userEmail}">
+                        <input type="email" class="form-control" placeholder="이메일" name="userEmail" id="userEmail" maxlength="20" required="required" value="${principal.userEntity.userEmail}" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if> ></input>
                         <div class="emailCheck" id="emailCheck"></div>
                     </div>
                     <div class="form-group">
                         이름
-                        <input type="text" class="form-control" placeholder="이름" name="name" maxlength="20" required="required" value="${principal.userEntity.name}">
+                        <input type="text" class="form-control" placeholder="이름" name="name" maxlength="20" required="required" value="${principal.userEntity.name}" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
                     </div>
 
                     <button class="btn btn-primary form-control" id="regSubmit">정보 수정</button>
