@@ -51,7 +51,7 @@ public class UserEntity {
     private LocalDateTime createDate;
 
     @PrePersist
-    public void createDate() {
+    private void createDate() {
         this.createDate = LocalDateTime.now();
     }
 }

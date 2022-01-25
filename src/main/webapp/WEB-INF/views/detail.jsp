@@ -92,7 +92,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><b>내용</b> ${writes.content}</td>
+                        <td><b>내용</b>
+                        <br>
+                        <c:forEach items="${writes.files}" var="files">
+                            <img class="images" src="/upload/${files.imageFileName}" height="400px" width="500px">
+                            <br>
+                        </c:forEach>
+                        ${writes.content}</td>
                     </tr>
                 </tbody>
             </table>
@@ -111,6 +117,28 @@
                     <button class="btn btn-primary btn-sm" onclick = "writesDelete(${writes.id}, event, ${pageNum})">글 삭제</button>
                 </c:when>
             </c:choose>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                <thead>
+                    <tr>
+                        <th colspan="2" style="background-color: #eeeeee; text-align: center;">첨부 파일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <c:forEach items="${writes.files}" var="file" varStatus = "status">
+                       <tr>
+                          <td>
+                             <a href="/upload/${file.imageFileName}">${file.imageFileName}</a>
+                          </td>
+                       </tr>
+                   </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
     <br>
@@ -188,24 +216,24 @@
     <br>
     <br>
     <div class="container">
-            <div class="row">
-                <form id="comment" onsubmit="comment(${writes.id}, event, ${pageNum})">
-                    <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
-                        <thead>
-                            <tr>
-                                <th colspan="2" style="background-color: #eeeeee; text-align: center;">댓글 작성</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><textarea class="form-control" placeholder="댓글" name="content" maxlength="2048" style="height: 100px"></textarea></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn btn-primary form-control">댓글 쓰기</button>
-                </form>
-            </div>
+        <div class="row">
+            <form id="comment" onsubmit="comment(${writes.id}, event, ${pageNum})">
+                <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                    <thead>
+                        <tr>
+                            <th colspan="2" style="background-color: #eeeeee; text-align: center;">댓글 작성</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><textarea class="form-control" placeholder="댓글" name="content" maxlength="2048" style="height: 100px"></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary form-control">댓글 쓰기</button>
+            </form>
         </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/resources/js/bootstrap.js"></script>
     <script src="/resources/js/comment.js"></script>

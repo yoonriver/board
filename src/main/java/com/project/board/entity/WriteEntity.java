@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,12 @@ public class WriteEntity {
     @JsonIgnoreProperties({"writeEntity"})
     private List<LikesEntity> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "writeEntity",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    @JsonIgnoreProperties({"writeEntity"})
+    private List<FileEntity> files = new ArrayList<>();
+
     @Transient
     private int isLikes; // 1이면 추천을 누른 상태
 
@@ -47,7 +54,7 @@ public class WriteEntity {
     private LocalDateTime createDate;
 
     @PrePersist
-    public void createDate() {
+    private void createDate() {
         this.createDate = LocalDateTime.now();
     }
 

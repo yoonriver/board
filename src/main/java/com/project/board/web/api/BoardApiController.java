@@ -8,6 +8,7 @@ import com.project.board.repository.WriteRepository;
 import com.project.board.service.WriteService;
 import com.project.board.service.LikesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,16 +25,8 @@ public class BoardApiController {
     private final WriteRepository writeRepository;
     private final LikesService likesService;
 
-
-    @PutMapping("/api/board/modify/{writeId}")
-    public ResponseEntity<?> modify(@PathVariable Long writeId, @Valid WriteDto writeDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        WriteEntity writeEntity = writeRepository.findById(writeId).get();
-
-        writeService.글수정(writeId, writeDto.toEntity(), principalDetails.getUserEntity());
-
-        return new ResponseEntity<>(new CMRespDto<>(1, "글 수정 완료", null), HttpStatus.OK);
-    }
-
+    @Value("${file.path}")
+    private String uploadFolder;
 
     @DeleteMapping("/api/board/delete/{writeId}")
     public ResponseEntity<?> delete(@PathVariable Long writeId, @AuthenticationPrincipal PrincipalDetails principalDetails) {

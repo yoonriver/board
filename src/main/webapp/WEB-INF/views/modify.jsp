@@ -58,7 +58,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form id="writesModify" onsubmit="writesModify(${writes.id}, event, ${pageNum})">
+            <form id="writesModify" method="post" action="/board/modify/${writeId}?page=${pageNum}" enctype="multipart/form-data">
                 <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                     <thead>
                         <tr>
@@ -82,6 +82,28 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row">
+                    <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background-color: #eeeeee; text-align: center;">첨부 파일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           <c:forEach items="${writes.files}" var="files" varStatus = "status">
+                               <tr>
+                                  <td id="imageList">
+                                    <a href="/upload/${files.imageFileName}" id="images-${status.index}">${files.imageFileName}</a>
+                                    <button type="button" id="deleteButton-${status.index}" class="btn btn-primary btn-sm" onclick='imageDelete("${status.index}", "${files.imageFileName}", event)'>삭제</button>
+                                  </td>
+                               </tr>
+                           </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <input multiple="multiple" type="file" name="fileList" accept="image/gif, image/jpeg, image/png">(PNG/JPG 파일, 최대 10개까지 업로드 가능, 한 파일당 10MB 초과 불가)
+                <br>
+                <br>
                 <button class="btn btn-primary form-control" id="modify">수정하기</button>
             </form>
         </div>
@@ -89,6 +111,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/resources/js/bootstrap.js"></script>
     <script src="/resources/js/modify.js"></script>
+
 
 </body>
 </html>

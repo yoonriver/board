@@ -18,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.xml.stream.events.Comment;
@@ -86,7 +89,7 @@ public class BoardController {
     @PostMapping("/board/write")
     public String write(@Valid WriteDto writeDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int page) {
 
-        WriteEntity writeEntity = writeService.글쓰기(writeDto.toEntity(), principalDetails.getUserEntity());
+        WriteEntity writeEntity = writeService.글쓰기(writeDto, principalDetails.getUserEntity());
 
         return "redirect:/board/" + writeEntity.getId() + "?page=" + page;
     }
@@ -104,6 +107,15 @@ public class BoardController {
         model.addAttribute("pageNum", page);
 
         return "modify";
+    }
+
+    @PostMapping("/board/modify/{writeId}")
+    public String modify(@PathVariable Long writeId, @Valid WriteDto writeDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int page) {
+        WriteEntity writeEntity = writeRepository.findById(writeId).get();
+
+        writeService.글수정(writeId, writeDto, principalDetails.getUserEntity());
+
+        return "redirect:/board/" + writeEntity.getId() + "?page=" + page;
     }
 
 }

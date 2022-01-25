@@ -86,7 +86,6 @@ public class AuthService {
                 String.class
         );
 
-        // Gson, Json Simple, ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
         OAuthToken oAuthToken = null;
 

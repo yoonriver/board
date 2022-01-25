@@ -5,6 +5,8 @@ server:
     encoding:
       charset: utf-8
       enabled: true
+  tomcat:
+    max-swallow-size: -1
 
 spring:
   mvc:
@@ -40,11 +42,12 @@ spring:
   profiles:
     include: oauth
 
-  file:
-    path: D:\Coding\upload\
+file:
+  path: D:\Coding\upload\
 
 
 spring.main.allow-bean-definition-overriding: true
+
 
 
 

@@ -58,7 +58,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form method="POST" action="/board/write?page=${pageNum}">
+            <form method="POST" action="/board/write?page=${pageNum}" enctype="multipart/form-data">
                 <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                     <thead>
                         <tr>
@@ -82,12 +82,18 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <!--사진업로드-->
+                <input multiple = "multiple" type="file" name="fileList" accept="image/gif, image/jpeg, image/png">(PNG/JPG 파일, 최대 10개까지 업로드 가능, 한 파일당 10MB 초과 불가)
+                <br>
+                <br>
+
                 <button class="btn btn-primary form-control" id="write">글쓰기</button>
             </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="../resources/js/bootstrap.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
 
 </body>
 </html>

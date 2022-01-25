@@ -4,7 +4,6 @@ function update(userId, event) {
 
     let data = $("#profileUpdate").serialize();
 
-
     $.ajax({
         type: "put",
         url: `/api/profile/update/${userId}`,
