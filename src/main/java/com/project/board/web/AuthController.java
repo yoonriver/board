@@ -3,6 +3,7 @@ package com.project.board.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.board.dto.EmailDto;
+import com.project.board.dto.IdEmailDto;
 import com.project.board.dto.KakaoProfileDto;
 import com.project.board.dto.UserDto;
 import com.project.board.entity.UserEntity;
@@ -97,6 +98,21 @@ public class AuthController {
 
         authService.아이디찾기(emailDto.getUserEmail());
         redirectAttributes.addAttribute("loginStatus", "아이디가 담긴 메일을 보냈습니다.");
+
+        return "redirect:/auth/login";
+    }
+
+    @GetMapping("/auth/find/pw")
+    public String findPwForm() {
+
+        return "findPw";
+    }
+
+    @PostMapping("/auth/find/pw")
+    public String findPw(@Valid IdEmailDto idEmailDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        authService.비밀번호찾기(idEmailDto.getUsername(), idEmailDto.getUserEmail());
+        redirectAttributes.addAttribute("loginStatus", "임시 비밀번호가 담긴 메일을 보냈습니다.");
 
         return "redirect:/auth/login";
     }

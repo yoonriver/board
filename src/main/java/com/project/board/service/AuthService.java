@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +21,6 @@ public class AuthService {
 
     private final AuthRepository authRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Value("${email.id}")
-    private String emailId;
-    @Value("${email.pw}")
-    private String emailPw;
     @Value("${spring.mail.username}")
     private String FROM_MAIL;
     private final JavaMailSender mailSender;
@@ -55,21 +53,23 @@ public class AuthService {
         return isExists;
     }
 
-    public void 메일보내기(UserEntity userEntity, String option){
+    public void 메일보내기(UserEntity userEntity, String tempPw, String option){
 
-        if(option.equals("id")) {
-            try {
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setTo(userEntity.getUserEmail());
-                message.setFrom(FROM_MAIL);
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(userEntity.getUserEmail());
+            message.setFrom(FROM_MAIL);
+            if(option.equals("id")) {
                 message.setSubject(userEntity.getName() + "님의 아이디 입니다.");
                 message.setText(userEntity.getName() + "님의 아이디는 " + userEntity.getUsername() + " 입니다.");
-
-                mailSender.send(message);
-
-            } catch (Exception e) {
-                throw new CustomStandardValidationException(e.getMessage());
+            }else if(option.equals("pw")) {
+                message.setSubject(userEntity.getName() + "님의 임시 비밀번호 입니다.");
+                message.setText(userEntity.getName() + "님의 비밀번호는 " + tempPw + " 입니다. 비밀번호를 꼭 변경해주세요.");
             }
+            mailSender.send(message);
+
+        } catch (Exception e) {
+            throw new CustomStandardValidationException(e.getMessage());
         }
     }
 
@@ -79,7 +79,25 @@ public class AuthService {
             throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
         });
 
-        메일보내기(userEntity, "id");
+        메일보내기(userEntity, null, "id");
+    }
+
+    @Transactional
+    public void 비밀번호찾기(String username, String userEmail) {
+
+        authRepository.findByUsername(username).orElseThrow(() -> {
+            throw new CustomStandardValidationException("일치하는 아이디가 없습니다.");
+        });
+
+        UserEntity userEntity = authRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+            throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
+        });
+
+        String tempPw = UUID.randomUUID().toString().substring(0, 8);
+        String encodedPassword = bCryptPasswordEncoder.encode(tempPw);
+        userEntity.setPassword(encodedPassword);
+
+        메일보내기(userEntity, tempPw, "pw");
     }
 
 }
