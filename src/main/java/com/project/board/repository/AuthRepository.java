@@ -12,4 +12,6 @@ public interface AuthRepository extends JpaRepository<UserEntity, Long> {
     Boolean existsByUserEmail(String userEmail);
 
     UserEntity findByUsername(String username);
+
+    Optional<UserEntity> findByUserEmail(String userEmail);
 }

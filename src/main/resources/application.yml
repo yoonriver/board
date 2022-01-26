@@ -42,11 +42,15 @@ spring:
   profiles:
     include: oauth
 
+  main:
+    allow:
+      bean:
+        definition:
+          overriding: true
+
 file:
   path: D:\Coding\upload\
 
-
-spring.main.allow-bean-definition-overriding: true
 
 
 

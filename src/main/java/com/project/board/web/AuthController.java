@@ -2,12 +2,14 @@ package com.project.board.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.board.dto.EmailDto;
 import com.project.board.dto.KakaoProfileDto;
 import com.project.board.dto.UserDto;
 import com.project.board.entity.UserEntity;
 import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.role.Role;
 import com.project.board.service.AuthService;
+import com.project.board.service.OAuthService;
 import com.project.board.token.OAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,15 +24,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -41,15 +42,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthController {
 
-
-
     private static Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final AuthService authService;
+    private final OAuthService oAuthService;
 
 
 
     @GetMapping("/auth/login")
-    public String loginForm() {
+    public String loginForm(@RequestParam(value = "loginStatus", required = false) String loginStatus, Model model) {
+        model.addAttribute("loginStatus", loginStatus);
 
         return "login";
     }
@@ -80,9 +81,24 @@ public class AuthController {
     @GetMapping("/auth/kakao/callback")
     public String kakaoCallback(String code) {
 
-        authService.카카오로그인(code);
+        oAuthService.카카오로그인(code);
 
         return "redirect:/main";
+    }
+
+    @GetMapping("/auth/find/id")
+    public String findIdForm() {
+
+        return "findId";
+    }
+
+    @PostMapping("/auth/find/id")
+    public String findId(@Valid EmailDto emailDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        authService.아이디찾기(emailDto.getUserEmail());
+        redirectAttributes.addAttribute("loginStatus", "아이디가 담긴 메일을 보냈습니다.");
+
+        return "redirect:/auth/login";
     }
 
 

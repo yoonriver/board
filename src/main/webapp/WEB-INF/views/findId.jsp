@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1">
     <link rel="stylesheet" href="/../resources/css/bootstrap.css">
-    <title>Title</title>
+    <title>ID 찾기</title>
     <style type="text/css">
     #loginCheck {
         color : red;
@@ -63,27 +63,14 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <div class="jumbotron" style="padding-top: 20px;">
-                <form method="POST" action="/auth/login">
-                    <h3 style="text-align: center;">로그인 화면</h3>
-                    <div class="loginStatus" id="loginStatus" style="color:red;">${loginStatus}</div>
+                <form method="POST" action="/auth/find/id">
+                    <h3 style="text-align: center;">ID 찾기</h3>
+                    <div class="findId" id="findId">${findId}</div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="아이디" name="username" maxlength="20" />
+                        <input type="email" class="form-control" placeholder="Email 주소" name="userEmail" maxlength="20" required />
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" />
-                    </div>
-                    <button class="btn btn-primary form-control">로그인</button>
+                    <button class="btn btn-primary form-control">ID 찾기</button>
                 </form>
-                    <br/>
-                    <button class="btn btn-primary form-control" onclick="location.href='/auth/join'">회원가입</button>
-                    <br/>
-                    <br/>
-                    &nbsp;&nbsp;&nbsp;
-                    <button id="find" class="btn btn-success btn-sm" onclick="location.href='/auth/find/id'">ID 찾기</button>
-                    <button id="find" class="btn btn-success btn-sm" onclick="location.href='/auth/find/pw'">비밀번호 찾기</button>
-                    <br/>
-                    <br/>
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=cd71d24ba09df178e17c6c59fa8289c5&redirect_uri=http://localhost:8080/auth/kakao/callback&response_type=code"><img src="/../resources/image/kakao_login_button.png"></a>
             </div>
         </div>
     </div>

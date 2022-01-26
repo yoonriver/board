@@ -20,5 +20,18 @@ spring:
           user-info-uri: https://kapi.kakao.com/v2/user/me
           user_name_attribute: id
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    protocol: smtp
+    tls: true
+    default-encoding: UTF-8
+    username: qhdtldls@gmail.com
+    password: uxyviijnnbarmxvr
+
 yks:
   key: yks1234
+
+email:
+  id: qhdtldls@gmail.com
+  pw: uxyviijnnbarmxvr
