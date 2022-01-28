@@ -61,54 +61,22 @@
             </ul>
         </div>
     </nav>
-    <thead>
-        <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
-            <tr>
-                <c:url value="/board/list" var="news">
-                    <c:param name="page" value="0" />
-                    <c:param name="category" value="소식" />
-                </c:url>
-                <c:url value="/board/list" var="review">
-                    <c:param name="page" value="0" />
-                    <c:param name="category" value="리뷰" />
-                </c:url>
-                <c:url value="/board/list" var="chat">
-                    <c:param name="page" value="0" />
-                    <c:param name="category" value="잡담" />
-                </c:url>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${news}" <c:if test="${category == '소식'}">style="color:red;"</c:if>>소식</a></th>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${review}" <c:if test="${category == '리뷰'}">style="color:red;"</c:if>>리뷰</a></th>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${chat}" <c:if test="${category == '잡담'}">style="color:red;"</c:if>>잡담</a></th>
-            </tr>
-        </table>
-    </thead>
     <div class="container">
         <div class="row">
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
-                        <th style="background-color: #eeeee; text-align: center;">번호</th>
-                        <th style="background-color: #eeeee; text-align: center;">카테고리</th>
-                        <th style="background-color: #eeeee; text-align: center;">제목</th>
-                        <th style="background-color: #eeeee; text-align: center;">작성자</th>
-                        <th style="background-color: #eeeee; text-align: center;">조회수</th>
-                        <th style="background-color: #eeeee; text-align: center;">추천수</th>
-                        <th style="background-color: #eeeee; text-align: center;">작성일</th>
+                        <th style="background-color: #eeeee; text-align: center;">회원번호</th>
+                        <th style="background-color: #eeeee; text-align: center;">아이디</th>
+                        <th style="background-color: #eeeee; text-align: center;">이름</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${writeList.content}" var="list">
+                    <c:forEach items="${userList.content}" var="list">
                         <tr>
                             <td>${list.id}</td>
-                            <td>${list.category}</td>
-                            <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}">${list.title}</a></td>
-                            <td>${list.userEntity.name}</td>
-                            <td>${list.count}</td>
-                            <td>${fn:length(list.likes)}</td>
-                            <td><fmt:parseDate value="${list.createDate}"
-                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                                <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedDateTime}" />
-                            </td>
+                            <td><a href="/user/info/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}">${list.username}</a></td>
+                            <td>${list.name}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -121,39 +89,34 @@
 
                 <ul class="center">
                     <c:if test="${startNum > 1}">
-                        <a href="/board/list?page=${(startNum-5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >이전</a>
+                        <a href="/user/list?page=${(startNum-5)-1}&keyword=${keyword}&option=${option}" class="btn btn-prev" >이전</a>
                     </c:if>
-
 
                     <c:forEach var="i" begin="${startNum}" end="${lastNum}">
                         <c:if test="${i <= totalPage}">
-                            <a href="/board/list?page=${i-1}&keyword=${keyword}&option=${option}&category=${category}" <c:if test="${page == i}">style="color:orange;"</c:if>>${i}</a>
+                            <a href="/user/list?page=${i-1}&keyword=${keyword}&option=${option}" <c:if test="${page == i}">style="color:orange;"</c:if>>${i}</a>
                         </c:if>
                     </c:forEach>
 
                     <c:if test="${lastNum < totalPage}">
-                        <a href="/board/list?page=${(startNum+5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >다음</a>
+                        <a href="/user/list?page=${(startNum+5)-1}&keyword=${keyword}&option=${option}" class="btn btn-prev" >다음</a>
                     </c:if>
 
                     <!-- 검색 form -->
-                    <form action="/board/list" method="GET">
+                    <form action="/user/list" method="GET">
                         <div>
                             <select id="option" name="option">
-                                <option value="titleContent" <c:if test="${option == 'titleContent'}">selected</c:if>>제목+내용</option>
-                                <option value="title" <c:if test="${option == 'title'}">selected</c:if>>제목</option>
-                                <option value="content" <c:if test="${option == 'content'}">selected</c:if>>내용</option>
+                                <option value="username" <c:if test="${option == 'username'}">selected</c:if>>아이디</option>
+                                <option value="name" <c:if test="${option == 'name'}">selected</c:if>>이름</option>
                             </select>
                             <input name="keyword" type="text" placeholder="검색어를 입력해주세요" value="${keyword}">
                             <input name="page" type="hidden" value=0>
-                            <input name="category" type="hidden" value="${category}">
                             <button class="btn btn-primary">검색하기</button>
-                            <a href="/board/list?page=0&keyword=&option=&category=" class="btn btn-primary">전체 글 보기</a>
+                            <a href="/user/list?page=0&keyword=&option=" class="btn btn-primary">전체 회원 보기</a>
                         </div>
                     </form>
                 </ul>
 
-
-            <a href="/board/write?page=0" class="btn btn-primary pull-right">글쓰기</a>
         </div>
     </div>
 

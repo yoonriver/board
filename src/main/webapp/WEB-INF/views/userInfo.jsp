@@ -13,7 +13,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1">
     <link rel="stylesheet" href="/../resources/css/bootstrap.css">
-    <title>Title</title>
+    <title>회원 정보 조회</title>
 </head>
 
 <body>
@@ -59,44 +59,37 @@
             </ul>
         </div>
     </nav>
+
     <div class="container">
-        <div class="row">
-            <form method="POST" action="/board/write?page=${pageNum}" enctype="multipart/form-data">
-                <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
-                    <thead>
-                        <tr>
-                            <th colspan="2" style="background-color: #eeeeee; text-align: center;">게시판 글쓰기 양식</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td width=100%>
-                                <label>카테고리</label>
-                                <select id="category" name="category">
-                                    <option value="소식">소식</option>
-                                    <option value="리뷰">리뷰</option>
-                                    <option value="잡담">잡담</option>
-                                </select>
-                                <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 350px"></textarea></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="jumbotron" style="padding-top: 20px;">
+                <h3 style="text-align: center;">회원 정보 조회</h3>
+                <div class="form-group">
+                    아이디
+                    <input  type="text" class="form-control" placeholder="아이디" name="username" id="username" maxlength="20" value="${user.username}" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    이메일
+                    <input type="email" class="form-control" placeholder="이메일" name="userEmail" id="userEmail" maxlength="20" required="required" value="${user.userEmail}" readonly="readonly"></input>
+                    <div class="emailCheck" id="emailCheck"></div>
+                </div>
+                <div class="form-group">
+                    이름
+                    <input type="text" class="form-control" placeholder="이름" name="name" maxlength="20" required="required" value="${user.name}" readonly="readonly">
+                </div>
 
-                <!--사진업로드-->
-                <input multiple = "multiple" type="file" name="fileList" accept="image/gif, image/jpeg, image/png">(PNG/JPG 파일, 최대 10개까지 업로드 가능, 한 파일당 10MB 초과 불가)
+                <button class="btn btn-primary form-control" id="userDelete" onclick="userDelete(${user.id}, ${pageNum}, event)">회원 삭제</button>
                 <br>
                 <br>
-
-                <button class="btn btn-primary form-control" id="write">글쓰기</button>
-            </form>
+                <a href="/user/list?page=0&keyword=${keyword}&option=${option}" class="btn btn-primary form-control">뒤로 가기</a>
+            </div>
         </div>
-    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/resources/js/bootstrap.js"></script>
+    <script src="/resources/js/userInfo.js"></script>
 
 </body>
 </html>

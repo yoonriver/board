@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.board.dto.KakaoProfileDto;
 import com.project.board.entity.UserEntity;
-import com.project.board.repository.AuthRepository;
+import com.project.board.repository.UserRepository;
 import com.project.board.role.Role;
 import com.project.board.token.OAuthToken;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
 public class OAuthService {
 
     private final AuthService authService;
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Value("${yks.key}")
@@ -112,7 +112,7 @@ public class OAuthService {
             kakaoUser.setPassword(encodedPassword);
             kakaoUser.setRole(Role.USER);
 
-            authRepository.save(kakaoUser);
+            userRepository.save(kakaoUser);
 
         }
 

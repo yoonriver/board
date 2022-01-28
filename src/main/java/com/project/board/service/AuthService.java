@@ -2,7 +2,7 @@ package com.project.board.service;
 
 import com.project.board.entity.UserEntity;
 import com.project.board.handler.ex.CustomStandardValidationException;
-import com.project.board.repository.AuthRepository;
+import com.project.board.repository.UserRepository;
 import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Value("${spring.mail.username}")
     private String FROM_MAIL;
@@ -33,14 +33,14 @@ public class AuthService {
         userEntity.setPassword(encodedPassword);
         userEntity.setRole(Role.USER);
 
-        authRepository.save(userEntity);
+        userRepository.save(userEntity);
 
     }
 
     @Transactional
     public boolean 아이디확인(String username) {
 
-        boolean isExists = authRepository.existsByUsername(username);
+        boolean isExists = userRepository.existsByUsername(username);
 
         return isExists;
     }
@@ -48,7 +48,7 @@ public class AuthService {
     @Transactional
     public boolean 이메일확인(String userEmail) {
 
-        boolean isExists = authRepository.existsByUserEmail(userEmail);
+        boolean isExists = userRepository.existsByUserEmail(userEmail);
 
         return isExists;
     }
@@ -75,7 +75,7 @@ public class AuthService {
 
     public void 아이디찾기(String userEmail) {
 
-        UserEntity userEntity = authRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
             throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
         });
 
@@ -85,11 +85,11 @@ public class AuthService {
     @Transactional
     public void 비밀번호찾기(String username, String userEmail) {
 
-        authRepository.findByUsername(username).orElseThrow(() -> {
+        userRepository.findByUsername(username).orElseThrow(() -> {
             throw new CustomStandardValidationException("일치하는 아이디가 없습니다.");
         });
 
-        UserEntity userEntity = authRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
             throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
         });
 

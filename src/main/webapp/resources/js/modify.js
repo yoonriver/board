@@ -1,55 +1,29 @@
-//function writesModify(writeId, event, pageNum) {
-//
-//    event.preventDefault();
-//
-//    let data = $("#writesModify").serialize();
-//    var totalFiles = document.getElementById('fileList').files.length;
-//    console.log(totalFiles);
-//    for (var i = 0; i < totalFiles; index++) {
-//       form_data.append("fileList[]", document.getElementById('fileList').files[i]);
-//    }
-//
-//    $.ajax({
-//        type: "POST",
-//        url: `/api/board/modify/${writeId}`,
-//        data: data,
-//        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-//        dataType: "json"
-//
-//    }).done(res=>{
-//        console.log("성공", res);
-//        location.href = `/board/${writeId}?page=${pageNum}`;
-//
-//    }).fail(error=>{
-//        console.log(error);
-//        if(error.data == null) {
-//            alert(error.responseText);
-//        }else {
-//            error.responseText;
-//        }
-//    });
-//
-//}
-
 function writesDelete(writeId, event, pageNum) {
     event.preventDefault();
 
-    $.ajax({
-        type: "delete",
-        url: `/api/board/delete/${writeId}`,
+    var result = confirm("정말 삭제하시겠습니까?");
 
-    }).done(res=>{
-        console.log("성공", res);
-        location.href = `/board/list?page=${pageNum}&keyword=&option=&category=`;
+    if(result) {
+        $.ajax({
+            type: "delete",
+            url: `/api/board/delete/${writeId}`,
 
-    }).fail(error=>{
-        console.log(error);
-        if(error.data == null) {
-            alert(error.responseText);
-        }else {
-            error.responseText;
-        }
-    });
+        }).done(res=>{
+            console.log("성공", res);
+            location.href = `/board/list?page=${pageNum}&keyword=&option=&category=`;
+
+        }).fail(error=>{
+            console.log(error);
+            if(error.data == null) {
+                alert(error.responseText);
+            }else {
+                error.responseText;
+            }
+        });
+    }else {
+
+    }
+
 
 }
 

@@ -1,8 +1,7 @@
 package com.project.board.config.auth;
 
 import com.project.board.entity.UserEntity;
-import com.project.board.handler.ex.CustomValidationException;
-import com.project.board.repository.AuthRepository;
+import com.project.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userEntity = authRepository.findByUsername(username).get();
+        UserEntity userEntity = userRepository.findByUsername(username).get();
 
         if(userEntity == null) {
             return null;

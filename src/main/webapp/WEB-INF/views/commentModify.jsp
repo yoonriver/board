@@ -19,15 +19,6 @@
 
 <body>
     <nav class="navbar navbar-default">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                aria-expanded="false">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/main">JSP 게시판 웹사이트</a>
-        </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/main">메인</a></li>
@@ -51,6 +42,9 @@
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
                           <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <c:if test="${principal.userEntity.role eq 'ADMIN'}">
+                             <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
+                          </c:if>
                        </sec:authorize>
                    </ul>
                 </li>

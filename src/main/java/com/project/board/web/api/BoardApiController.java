@@ -2,7 +2,6 @@ package com.project.board.web.api;
 
 import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.dto.CMRespDto;
-import com.project.board.dto.WriteDto;
 import com.project.board.entity.WriteEntity;
 import com.project.board.repository.WriteRepository;
 import com.project.board.service.WriteService;
@@ -12,10 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor

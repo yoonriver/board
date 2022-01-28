@@ -1,20 +1,17 @@
 package com.project.board.service;
 
-import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.entity.CommentEntity;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationApiException;
-import com.project.board.handler.ex.CustomValidationException;
-import com.project.board.repository.AuthRepository;
+import com.project.board.repository.UserRepository;
 import com.project.board.repository.CommentRepository;
 import com.project.board.repository.WriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.stream.events.Comment;
 import java.util.*;
 
 @Service
@@ -22,13 +19,13 @@ import java.util.*;
 public class CommentService {
 
     final private CommentRepository commentRepository;
-    final private AuthRepository authRepository;
+    final private UserRepository userRepository;
     final private WriteRepository writeRepository;
 
     @Transactional
     public CommentEntity 댓글쓰기(Long userId, Long writeId, String content, Long parentId) {
 
-        UserEntity userEntity = authRepository.findById(userId).get();
+        UserEntity userEntity = userRepository.findById(userId).get();
         WriteEntity writeEntity = writeRepository.findById(writeId).get();
         CommentEntity commentEntity = new CommentEntity();
 

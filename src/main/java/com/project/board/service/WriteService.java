@@ -49,11 +49,11 @@ public class WriteService {
             writeDto.setFileList(null);
         }
 
-        if(writeDto.getFileList().size() > 10) {
-            throw new CustomStandardValidationException("파일을 10개 이상 등록 할 수 없습니다.");
-        }
-
         if(!CollectionUtils.isEmpty(writeDto.getFileList())) {
+
+            if(writeDto.getFileList().size() > 10) {
+                throw new CustomStandardValidationException("파일을 10개 이상 등록 할 수 없습니다.");
+            }
 
             for (MultipartFile multipartFile : writeDto.getFileList()) {
 
@@ -108,6 +108,10 @@ public class WriteService {
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
             throw new CustomValidationApiException("게시글이 없습니다.");
         });
+
+        if(findWrites.getUserEntity().getId() != userEntity.getId()) {
+            throw new CustomStandardValidationException("권한이 없습니다.");
+        }
 
         if(userEntity.getId() == findWrites.getUserEntity().getId()) {
             // 첨부파일 수정
@@ -228,6 +232,10 @@ public class WriteService {
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
             return new CustomValidationApiException("게시글이 없습니다.");
         });
+
+        if(findWrites.getUserEntity().getId() != userEntity.getId()) {
+            throw new CustomStandardValidationException("권한이 없습니다.");
+        }
 
         if(userEntity.getId() == findWrites.getUserEntity().getId()) {
 

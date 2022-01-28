@@ -3,7 +3,6 @@ package com.project.board.dto;
 import com.project.board.entity.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;

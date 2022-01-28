@@ -1,7 +1,6 @@
 package com.project.board.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.board.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,16 +32,17 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String userEmail;
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE)
     //@JsonIgnoreProperties({"userEntity"})
     @JsonIgnore
     private List<WriteEntity> writes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE)
 //    @JsonIgnoreProperties({"userEntity"})
     @JsonIgnore
     private List<LikesEntity> likesEntities = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     private String oauth;
