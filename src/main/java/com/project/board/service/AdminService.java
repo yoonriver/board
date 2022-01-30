@@ -68,13 +68,10 @@ public class AdminService {
     @Transactional
     public void 회원삭제(Long userId, UserEntity userEntity) {
 
-        if(userEntity.getRole() != Role.ADMIN) {
-            throw  new CustomStandardValidationException("관리자가 아니므로 접근할 수 없습니다.");
-        }
 
-        if(userEntity.getId() == userId) {
-            throw new CustomStandardValidationException("로그인 한 계정은 삭제 할 수 없습니다.");
-        }
+//        if(userEntity.getId() == userId) {
+//            throw new CustomStandardValidationException("로그인 한 계정은 삭제 할 수 없습니다.");
+//        }
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
             throw new CustomStandardValidationException("회원 정보가 없습니다.");

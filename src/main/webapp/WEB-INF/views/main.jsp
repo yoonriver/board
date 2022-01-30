@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="principal"/>
@@ -16,7 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
+     <nav class="navbar navbar-default">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
                 aria-expanded="false">
@@ -36,21 +37,22 @@
                    <a href="#" class="dropdown-toggle"
                        data-toggle="dropdown" role="button" aria-haspopup="true"
                        <sec:authorize access="isAnonymous()">
-                           aria-expanded="false">접속하기<span class="caret"></span></a>
+                           aria-expanded="false">접속하기<span class="caret"></span>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
-                           aria-expanded="false">회원메뉴<span class="caret"></span></a>
+                           aria-expanded="false">회원메뉴<span class="caret"></span>
                        </sec:authorize>
+                   </a>
                    <ul class="dropdown-menu">
                        <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="/auth/login">로그인</a></li>
+                          <li><a href="/auth/login">로그인</a></li>
                           <li><a href="/auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
                           <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
-                          <c:if test="${principal.userEntity.role eq 'ADMIN'}">
-                            <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
+                          <c:if test="${principal.userEntity.role == 'ADMIN'}">
+                             <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
                           </c:if>
                        </sec:authorize>
                    </ul>

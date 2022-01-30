@@ -32,12 +32,12 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String userEmail;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     //@JsonIgnoreProperties({"userEntity"})
     @JsonIgnore
     private List<WriteEntity> writes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
 //    @JsonIgnoreProperties({"userEntity"})
     @JsonIgnore
     private List<LikesEntity> likesEntities = new ArrayList<>();

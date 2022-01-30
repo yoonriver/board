@@ -7,6 +7,7 @@ function writesDelete(writeId, event, pageNum) {
         $.ajax({
             type: "delete",
             url: `/api/board/delete/${writeId}`,
+            dataType: "json"
 
         }).done(res=>{
             console.log("성공", res);

@@ -7,6 +7,7 @@ function userDelete(userId, pageNum, event) {
         $.ajax({
             type: "delete",
             url: `/api/user/delete/${userId}`,
+            dataType: "json"
 
         }).done(res=>{
             console.log("성공", res);

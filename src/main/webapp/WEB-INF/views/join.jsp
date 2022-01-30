@@ -43,8 +43,8 @@
                        </sec:authorize>
                    <ul class="dropdown-menu">
                        <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="/auth/login">로그인</a></li>
-                          <li><a href="/auth/join">회원가입</a></li>
+                          <li><a href="/auth/login">로그인</a></li>
+                          <li class="active"><a href="/auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>

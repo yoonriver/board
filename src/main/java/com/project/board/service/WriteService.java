@@ -13,6 +13,7 @@ import com.project.board.handler.ex.CustomValidationApiException;
 import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.UploadRepository;
 import com.project.board.repository.WriteRepository;
+import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -108,10 +109,6 @@ public class WriteService {
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
             throw new CustomValidationApiException("게시글이 없습니다.");
         });
-
-        if(findWrites.getUserEntity().getId() != userEntity.getId()) {
-            throw new CustomStandardValidationException("권한이 없습니다.");
-        }
 
         if(userEntity.getId() == findWrites.getUserEntity().getId()) {
             // 첨부파일 수정
@@ -233,11 +230,7 @@ public class WriteService {
             return new CustomValidationApiException("게시글이 없습니다.");
         });
 
-        if(findWrites.getUserEntity().getId() != userEntity.getId()) {
-            throw new CustomStandardValidationException("권한이 없습니다.");
-        }
-
-        if(userEntity.getId() == findWrites.getUserEntity().getId()) {
+        if(userEntity.getId() == findWrites.getUserEntity().getId() || userEntity.getRole() == Role.ADMIN) {
 
             // 파일 삭제
             if(findWrites.getFiles() != null) {
@@ -256,7 +249,7 @@ public class WriteService {
             writeRepository.deleteById(writeId);
 
         }else {
-            throw new CustomUpdateValidationException("삭제 할 권한이 없습니다.");
+            throw new CustomValidationApiException("삭제 할 권한이 없습니다.");
         }
     }
 }

@@ -46,13 +46,13 @@
                        </sec:authorize>
                    <ul class="dropdown-menu">
                        <sec:authorize access="isAnonymous()">
-                          <li class="active"><a href="/auth/login">로그인</a></li>
+                          <li><a href="/auth/login">로그인</a></li>
                           <li><a href="/auth/join">회원가입</a></li>
                        </sec:authorize>
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
                           <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
-                          <c:if test="${principal.userEntity.role eq 'ADMIN'}">
+                          <c:if test="${principal.userEntity.role == 'ADMIN'}">
                              <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
                           </c:if>
                        </sec:authorize>

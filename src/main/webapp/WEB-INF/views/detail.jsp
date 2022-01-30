@@ -52,7 +52,7 @@
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
                           <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
-                          <c:if test="${principal.userEntity.role eq 'ADMIN'}">
+                          <c:if test="${principal.userEntity.role == 'ADMIN'}">
                              <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
                           </c:if>
                        </sec:authorize>
@@ -114,12 +114,12 @@
                 </c:otherwise>
             </c:choose>
             <button class="btn btn-primary btn-sm " onclick = "location.href='/board/list?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}'">글 목록</button>
-            <c:choose>
-                <c:when test="${principal.userEntity.id == writes.userEntity.id}">
-                    <button class="btn btn-primary btn-sm" onclick="location.href = '/board/modify/${writes.id}?page=${pageNum}'">글 수정</button>
-                    <button class="btn btn-primary btn-sm" onclick="writesDelete(${writes.id}, event, ${pageNum})">글 삭제</button>
-                </c:when>
-            </c:choose>
+            <c:if test="${principal.userEntity.id == writes.userEntity.id}">
+                <button class="btn btn-primary btn-sm" onclick="location.href = '/board/modify/${writes.id}?page=${pageNum}'">글 수정</button>
+            </c:if>
+            <c:if test="${principal.userEntity.id == writes.userEntity.id || principal.userEntity.role == 'ADMIN'}">
+                <button class="btn btn-primary btn-sm" onclick="writesDelete(${writes.id}, event, ${pageNum})">글 삭제</button>
+            </c:if>
         </div>
     </div>
     <br>

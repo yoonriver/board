@@ -46,7 +46,6 @@ public class ControlExceptionHandler {
         return e.getMessage();
     }
 
-
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
 

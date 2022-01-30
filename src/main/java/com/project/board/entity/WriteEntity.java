@@ -31,11 +31,15 @@ public class WriteEntity {
     @JsonIgnoreProperties({"writeEntity"})
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "writeEntity")
+    @OneToMany(mappedBy = "writeEntity",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
     @JsonIgnoreProperties({"writeEntity"})
     private List<CommentEntity> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "writeEntity")
+    @OneToMany(mappedBy = "writeEntity",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
     @JsonIgnoreProperties({"writeEntity"})
     private List<LikesEntity> likes = new ArrayList<>();
 
