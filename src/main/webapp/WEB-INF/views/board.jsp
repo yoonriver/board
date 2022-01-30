@@ -15,7 +15,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1">
     <link rel="stylesheet" href="/../resources/css/bootstrap.css">
-    <title>Title</title>
+    <title>게시글</title>
+    <style>
+        a.title:visited {color: silver; text-decoration: none;}
+        a.title:link {color: blue; text-decoration: none;}
+    </style>
 </head>
 
 <body>
@@ -87,7 +91,6 @@
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
-                        <th style="background-color: #eeeee; text-align: center;">번호</th>
                         <th style="background-color: #eeeee; text-align: center;">카테고리</th>
                         <th style="background-color: #eeeee; text-align: center;">제목</th>
                         <th style="background-color: #eeeee; text-align: center;">작성자</th>
@@ -97,11 +100,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- 공지 목록 -->
+                    <c:if test="${pageNum == 0}">
+                        <c:forEach items="${noticeList}" var="notice">
+                            <tr>
+                                <td>${notice.category}</td>
+                                <td><a href="/board/${notice.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title"><b>[공지]${notice.title}</b></a></td>
+                                <td>${notice.userEntity.name}</td>
+                                <td>${notice.count}</td>
+                                <td>${fn:length(notice.likes)}</td>
+                                <td><fmt:parseDate value="${notice.createDate}"
+                                        pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+                                    <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedDateTime}" />
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+
+                    <!-- 글 목록 -->
                     <c:forEach items="${writeList.content}" var="list">
                         <tr>
-                            <td>${list.id}</td>
                             <td>${list.category}</td>
-                            <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}">${list.title}</a></td>
+                            <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title">${list.title}</a></td>
                             <td>${list.userEntity.name}</td>
                             <td>${list.count}</td>
                             <td>${fn:length(list.likes)}</td>

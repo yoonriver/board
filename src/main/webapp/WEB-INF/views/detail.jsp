@@ -164,25 +164,23 @@
                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedCommentDateTime" type="both" />
                                 <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedCommentDateTime}" />
                                 &nbsp;&nbsp;
-                                <c:choose>
-                                    <c:when test="${comment.isDeleted == 1}">
-                                    &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}?page=${pageNum}'">대댓글</button>&nbsp;
-                                    </c:when>
-                                </c:choose>
-                                <c:choose>
-                                    <c:when test="${principal.userEntity.id == comment.userEntity.id}">
-                                        <c:choose>
-                                            <c:when test="${comment.isDeleted == 1}">
-                                                <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${comment.id}'">댓글 수정</button>&nbsp;
-                                            </c:when>
-                                        </c:choose>
-                                        <c:choose>
-                                            <c:when test="${comment.isDeleted == 1 or empty comment.children}">
-                                                <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, event)">댓글 삭제</button>
-                                            </c:when>
-                                        </c:choose>
-                                    </c:when>
-                                </c:choose>
+
+                                <c:if test="${comment.isDeleted == 1}">
+                                &nbsp<button class="btn-primary btn-sm" onclick="location.href='/comment/reply/${comment.id}?page=${pageNum}'">대댓글</button>&nbsp;
+                                </c:if>
+
+                                <c:if test="${principal.userEntity.id == comment.userEntity.id}">
+                                    <c:if test="${comment.isDeleted == 1}">
+                                        <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${comment.id}?page=${pageNum}'">댓글 수정</button>&nbsp;
+                                    </c:if>
+                                </c:if>
+
+                                <c:if test="${principal.userEntity.id == comment.userEntity.id || principal.userEntity.role == 'ADMIN'}">
+                                    <c:if test="${comment.isDeleted == 1 || empty comment.children}">
+                                        <button class="btn-primary btn-sm" onclick="commentDelete(${comment.id}, ${writes.id}, ${pageNum}, event)">댓글 삭제</button>
+                                    </c:if>
+                                </c:if>
+
                                 <br>
                                 <label>내용</label> ${comment.content}
                                 <br>
@@ -198,12 +196,12 @@
                                        pattern="yyyy-MM-dd'T'HH:mm" var="parsedCommentDateTime" type="both" />
                                     <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedCommentDateTime}" />
                                     &nbsp;&nbsp;
-                                    <c:choose>
-                                        <c:when test="${principal.userEntity.id == child.userEntity.id}">
-                                            <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${child.id}'">댓글 수정</button>&nbsp;
-                                            <button class="btn-primary btn-sm" onclick="commentDelete(${child.id}, ${writes.id}, event)">댓글 삭제</button>
-                                        </c:when>
-                                    </c:choose>
+                                    <c:if test="${principal.userEntity.id == child.userEntity.id}">
+                                        <button class="btn-primary btn-sm" onclick="location.href='/comment/modify/${child.id}'">댓글 수정</button>&nbsp;
+                                    </c:if>
+                                    <c:if test="${principal.userEntity.id == child.userEntity.id || principal.userEntity.role == 'ADMIN'}">
+                                        <button class="btn-primary btn-sm" onclick="commentDelete(${child.id}, ${writes.id}, ${pageNum}, event)">댓글 삭제</button>
+                                    </c:if>
                                     <br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>내용</label> ${child.content}
                                     <br>

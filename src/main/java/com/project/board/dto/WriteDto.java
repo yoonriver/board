@@ -41,11 +41,4 @@ public class WriteDto {
                 .build();
     }
 
-    public WriteEntity toEntity() {
-        return new WriteEntity().builder()
-                .category(category)
-                .title(title)
-                .content(content)
-                .build();
-    }
 }

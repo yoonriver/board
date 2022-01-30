@@ -53,7 +53,7 @@
     </nav>
     <div class="container">
             <div class="row">
-                <form id="comment" onsubmit="commentModify(${comment.id}, ${comment.writeEntity.id}, event)">
+                <form id="comment" onsubmit="commentModify(${comment.id}, ${comment.writeEntity.id}, ${pageNum}, event)">
                     <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                         <thead>
                             <tr>

@@ -8,6 +8,7 @@ import com.project.board.handler.ex.CustomValidationApiException;
 import com.project.board.repository.UserRepository;
 import com.project.board.repository.CommentRepository;
 import com.project.board.repository.WriteRepository;
+import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +88,7 @@ public class CommentService {
             commentEntity.setIsDeleted(0);
             commentEntity.setContent("(삭제 된 댓글입니다.)");
         }else{
-            if (userEntity.getId() == commentEntity.getUserEntity().getId()) {
+            if (userEntity.getId() == commentEntity.getUserEntity().getId() || userEntity.getRole() == Role.ADMIN) {
                 commentRepository.deleteById(commentId);
             } else {
                 throw new CustomUpdateValidationException("댓글을 삭제 할 권한이 없습니다.");

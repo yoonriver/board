@@ -28,12 +28,13 @@ public class CommentController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/comment/modify/{commentId}")
-    public String commentModify(@PathVariable Long commentId, Model model) {
+    public String commentModify(@PathVariable Long commentId, Model model, @RequestParam int page) {
 
         CommentEntity commentEntity = commentService.댓글한개선택(commentId);
         CommentDto commentDto = modelMapper.map(commentEntity, CommentDto.class);
 
         model.addAttribute("comment",commentDto);
+        model.addAttribute("pageNum", page);
 
         return "commentModify";
     }

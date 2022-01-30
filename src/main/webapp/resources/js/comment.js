@@ -25,7 +25,7 @@ function comment(writeId, event, pageNum) {
 
 }
 
-function commentModify(commentId, writeId, event) {
+function commentModify(commentId, writeId, pageNum, event) {
 
     event.preventDefault();
 
@@ -40,7 +40,7 @@ function commentModify(commentId, writeId, event) {
 
     }).done(res=>{
         console.log("성공", res);
-        location.href = `/board/${writeId}`;
+        location.href = `/board/${writeId}?page=${pageNum}`;
 
     }).fail(error=>{
         console.log(error);
@@ -53,7 +53,7 @@ function commentModify(commentId, writeId, event) {
 
 }
 
-function commentDelete(commentId, writeId, event) {
+function commentDelete(commentId, writeId, pageNum, event) {
     event.preventDefault();
 
     $.ajax({
@@ -62,7 +62,7 @@ function commentDelete(commentId, writeId, event) {
 
     }).done(res=>{
         console.log("성공", res);
-        location.href = `/board/${writeId}`;
+        location.href = `/board/${writeId}?page=${pageNum}`;
 
     }).fail(error=>{
         console.log(error);

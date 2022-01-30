@@ -76,7 +76,12 @@
                                     <option value="소식">소식</option>
                                     <option value="리뷰">리뷰</option>
                                     <option value="잡담">잡담</option>
+                                    <c:if test="${principal.userEntity.role == 'ADMIN'}">
+                                        <option value="공지">공지</option>
+                                    </c:if>
                                 </select>
+                                &nbsp;&nbsp;
+
                                 <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"/>
                             </td>
                         </tr>

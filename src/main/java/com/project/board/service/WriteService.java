@@ -45,6 +45,7 @@ public class WriteService {
         WriteEntity writeEntity = writeDto.toEntity(userEntity, 0);
         writeRepository.save(writeEntity);
 
+
         // 파일을 선택하지 않았을 경우 들어오는 공백값 확인 후 fileList를 null로 초기화
         if(writeDto.getFileList().get(0).getOriginalFilename().trim().length() == 0) {
             writeDto.setFileList(null);

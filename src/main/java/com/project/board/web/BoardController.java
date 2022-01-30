@@ -43,8 +43,11 @@ public class BoardController {
                         @RequestParam(required = false) String keyword, @RequestParam(required = false) String category, Model model) {
 
         Page<WriteEntity> writeList = boardService.글목록(page, option, keyword, category);
+        List<WriteEntity> noticeList = boardService.공지목록();
+        System.out.println(noticeList);
 
         model.addAttribute("writeList", writeList);
+        model.addAttribute("noticeList", noticeList);
         model.addAttribute("pageNum", page);
         model.addAttribute("option", option);
         model.addAttribute("keyword", keyword);
