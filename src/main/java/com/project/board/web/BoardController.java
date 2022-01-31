@@ -44,7 +44,6 @@ public class BoardController {
 
         Page<WriteEntity> writeList = boardService.글목록(page, option, keyword, category);
         List<WriteEntity> noticeList = boardService.공지목록();
-        System.out.println(noticeList);
 
         model.addAttribute("writeList", writeList);
         model.addAttribute("noticeList", noticeList);

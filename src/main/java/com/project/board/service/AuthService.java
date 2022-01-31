@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,7 @@ public class AuthService {
     @Value("${spring.mail.username}")
     private String FROM_MAIL;
     private final JavaMailSender mailSender;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public void 회원가입(UserEntity userEntity) {
@@ -34,6 +39,9 @@ public class AuthService {
         userEntity.setRole(Role.USER);
 
         userRepository.save(userEntity);
+
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEntity.getUsername(), rawPassword));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
     }
 

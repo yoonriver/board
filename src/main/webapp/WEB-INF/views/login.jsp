@@ -72,6 +72,7 @@
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="비밀번호" name="password" maxlength="20" />
                     </div>
+                    <input type="checkbox" name="remember-me"> 자동 로그인
                     <button class="btn btn-primary form-control">로그인</button>
                 </form>
                     <br/>
