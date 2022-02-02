@@ -31,7 +31,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/main">JSP 게시판 웹사이트</a>
+            <a class="navbar-brand" href="/main">스프링 + JPA 게시판</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -91,8 +91,8 @@
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
-                        <th style="background-color: #eeeee; text-align: center;">제목</th>
                         <th style="background-color: #eeeee; text-align: center;">작성자</th>
+                          <th style="background-color: #eeeee; text-align: center;">제목</th>
                         <th style="background-color: #eeeee; text-align: center;">조회수</th>
                         <th style="background-color: #eeeee; text-align: center;">추천수</th>
                         <th style="background-color: #eeeee; text-align: center;">작성일</th>
@@ -102,8 +102,8 @@
                     <!-- 글 목록 -->
                     <c:forEach items="${writeList.content}" var="list">
                         <tr>
-                            <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title">${list.title}</a></td>
                             <td>${list.userEntity.name}</td>
+                            <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title">${list.title}</a></td>
                             <td>${list.count}</td>
                             <td>${fn:length(list.likes)}</td>
                             <td><fmt:parseDate value="${list.createDate}"

@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/main">JSP 게시판 웹사이트</a>
+            <a class="navbar-brand" href="/main">스프링 + JPA 게시판</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -65,7 +65,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
+            <table class="table table-striped" style="border: 1px solid #ddddd">
                 <thead>
                     <tr>
                         <th colspan="2" style="background-color: #eeeeee; text-align: center;">게시글</th>
@@ -84,26 +84,27 @@
                     <tr>
                         <td>
                             <label>제목</label>
-                            ${writes.title} &nbsp;&nbsp;
-                            <label>추천수&nbsp;</label><b id="likesCount">${fn:length(writes.likes)}</b><br>
+                            ${writes.title}
+
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label>이름</label>
                             ${writes.userEntity.name}
-                            <label>조회수</label>
-                            ${writes.count}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>조회수</label>&nbsp;${writes.count}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>추천수&nbsp;</label><b id="likesCount">${fn:length(writes.likes)}</b><br>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>내용</b>
-                        <br>
-                        <c:forEach items="${writes.files}" var="files">
-                            <img class="images" src="/upload/${files.imageFileName}" height="400px" width="500px">
-                            <br>
-                        </c:forEach>
-                        ${writes.content}</td>
+                        <td>
+                            <b>내용</b>
+                            <c:forEach items="${writes.files}" var="files">
+                                <img class="images" src="/upload/${files.imageFileName}" height="400px" width="500px">
+                                <br>
+                            </c:forEach>
+                        ${writes.content}
+                        </td>
                     </tr>
                 </tbody>
             </table>
