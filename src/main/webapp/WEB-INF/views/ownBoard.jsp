@@ -15,7 +15,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1">
     <link rel="stylesheet" href="/../resources/css/bootstrap.css">
-    <title>게시글</title>
+    <title>내가 쓴 글</title>
     <style>
         a.title:visited {color: silver; text-decoration: none;}
         a.title:link {color: blue; text-decoration: none;}
@@ -82,9 +82,7 @@
                     <c:param name="page" value="0" />
                     <c:param name="category" value="잡담" />
                 </c:url>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${news}" <c:if test="${category == '소식'}">style="color:red;"</c:if>>소식</a></th>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${review}" <c:if test="${category == '리뷰'}">style="color:red;"</c:if>>리뷰</a></th>
-                <th style="background-color: #eeeee; text-align: center;"><a href="${chat}" <c:if test="${category == '잡담'}">style="color:red;"</c:if>>잡담</a></th>
+                <th style="text-align:center;">내가 쓴 글</th>
             </tr>
         </table>
     </thead>
@@ -93,7 +91,6 @@
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
-                        <th style="background-color: #eeeee; text-align: center;">카테고리</th>
                         <th style="background-color: #eeeee; text-align: center;">제목</th>
                         <th style="background-color: #eeeee; text-align: center;">작성자</th>
                         <th style="background-color: #eeeee; text-align: center;">조회수</th>
@@ -102,27 +99,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 공지 목록 -->
-                    <c:if test="${pageNum == 0}">
-                        <c:forEach items="${noticeList}" var="notice">
-                            <tr>
-                                <td>${notice.category}</td>
-                                <td><a href="/board/${notice.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title"><b>[공지]${notice.title}</b></a></td>
-                                <td>${notice.userEntity.name}</td>
-                                <td>${notice.count}</td>
-                                <td>${fn:length(notice.likes)}</td>
-                                <td><fmt:parseDate value="${notice.createDate}"
-                                        pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                                    <fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedDateTime}" />
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
-
                     <!-- 글 목록 -->
                     <c:forEach items="${writeList.content}" var="list">
                         <tr>
-                            <td>${list.category}</td>
                             <td><a href="/board/${list.id}?page=${pageNum}&keyword=${keyword}&option=${option}&category=${category}" class="title">${list.title}</a></td>
                             <td>${list.userEntity.name}</td>
                             <td>${list.count}</td>
@@ -143,34 +122,33 @@
 
                 <ul class="center">
                     <c:if test="${startNum > 1}">
-                        <a href="/board/list?page=${(startNum-5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >이전</a>
+                        <a href="/profile/own-board?page=${(startNum-5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >이전</a>
                     </c:if>
 
 
                     <c:forEach var="i" begin="${startNum}" end="${lastNum}">
                         <c:if test="${i <= totalPage}">
-                            <a href="/board/list?page=${i-1}&keyword=${keyword}&option=${option}&category=${category}" <c:if test="${page == i}">style="color:orange;"</c:if>>${i}</a>
+                            <a href="/profile/own-board?page=${i-1}&keyword=${keyword}&option=${option}&category=${category}" <c:if test="${page == i}">style="color:orange;"</c:if>>${i}</a>
                         </c:if>
                     </c:forEach>
 
                     <c:if test="${lastNum < totalPage}">
-                        <a href="/board/list?page=${(startNum+5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >다음</a>
+                        <a href="/profile/own-board?page=${(startNum+5)-1}&keyword=${keyword}&option=${option}&category=${category}" class="btn btn-prev" >다음</a>
                     </c:if>
 
                     <!-- 검색 form -->
-                    <form action="/board/list" method="GET">
+                    <form action="/profile/own-board" method="GET">
                         <div>
                             <select id="option" name="option">
                                 <option value="titleContent" <c:if test="${option == 'titleContent'}">selected</c:if>>제목+내용</option>
                                 <option value="title" <c:if test="${option == 'title'}">selected</c:if>>제목</option>
                                 <option value="content" <c:if test="${option == 'content'}">selected</c:if>>내용</option>
-                                <option value="name" <c:if test="${option == 'name'}">selected</c:if>>이름</option>
                             </select>
                             <input name="keyword" type="text" placeholder="검색어를 입력해주세요" value="${keyword}">
                             <input name="page" type="hidden" value=0>
                             <input name="category" type="hidden" value="${category}">
                             <button class="btn btn-primary">검색하기</button>
-                            <a href="/board/list?page=0&keyword=&option=&category=" class="btn btn-primary">전체 글 보기</a>
+                            <a href="/profile/own-board?page=0&keyword=&option=&category=" class="btn btn-primary">전체 글 보기</a>
                         </div>
                     </form>
                 </ul>

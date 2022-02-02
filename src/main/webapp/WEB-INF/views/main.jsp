@@ -51,6 +51,8 @@
                        <sec:authorize access="isAuthenticated()">
                           <li><a href="/logout">로그아웃</a></li>
                           <li><a href="/profile/${principal.userEntity.id}/update">회원 정보 수정</a></li>
+                          <li><a href="/profile/own-board?page=0">내가 쓴 글</a></li>
+                          <li><a href="/profile/own-comment?page=0">내가 쓴 댓글</a></li>
                           <c:if test="${principal.userEntity.role == 'ADMIN'}">
                              <li><a href="/user/list?page=0&keyword=&option=">회원 관리</a></li>
                           </c:if>

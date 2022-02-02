@@ -10,6 +10,10 @@ import com.project.board.repository.CommentRepository;
 import com.project.board.repository.WriteRepository;
 import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,5 +99,15 @@ public class CommentService {
             }
         }
 
+    }
+
+    @Transactional
+    public Page<CommentEntity> 댓글페이지(int page, String option, String keyword, Long userId) {
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("createDate").descending());
+
+        Page<CommentEntity> commentList = commentRepository.findAllByUserEntity_Id(userId, pageable);
+
+        return commentList;
     }
 }
