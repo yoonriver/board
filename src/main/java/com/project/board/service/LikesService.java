@@ -21,9 +21,10 @@ public class LikesService {
     @Transactional
     public void 추천(Long writeId, UserEntity userEntity) {
 
-        WriteEntity writeEntity = writeRepository.findById(writeId).orElseThrow(() -> {
-            return new CustomValidationException("게시글이 없습니다.");
-        });
+//        WriteEntity writeEntity = writeRepository.findById(writeId).orElseThrow(() -> {
+//            return new CustomValidationException("게시글이 없습니다.");
+//        });
+        WriteEntity writeEntity = writeRepository.findById(writeId).get();
 
         LikesEntity likesEntity = new LikesEntity();
         likesEntity.setUserEntity(userEntity);

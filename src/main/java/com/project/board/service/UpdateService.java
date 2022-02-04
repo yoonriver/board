@@ -20,7 +20,8 @@ public class UpdateService {
 
     @Transactional
     public UserEntity 회원수정(Long id, UserEntity userDto) {
-        UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationApiException("찾을 수 없는 id입니다.");});
+//        UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationApiException("찾을 수 없는 id입니다.");});
+        UserEntity userEntity  = updateRepository.findById(id).get();
 
         // Validate 체크
         if(userEntity.getOauth() == null || userEntity.getOauth().equals("")) {
@@ -34,7 +35,8 @@ public class UpdateService {
 
     @Transactional
     public UserEntity 비밀번호수정(Long id, UserEntity userDto, String modPwd) {
-        UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationException("찾을 수 없는 id입니다.");});
+//        UserEntity userEntity  = updateRepository.findById(id).orElseThrow(() -> {return new CustomValidationException("찾을 수 없는 id입니다.");});
+        UserEntity userEntity  = updateRepository.findById(id).get();
 
         // Validate 체크
         if(userEntity.getOauth() == null || userEntity.getOauth().equals("")) {

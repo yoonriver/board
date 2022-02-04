@@ -25,9 +25,11 @@ public class UploadService {
     @Transactional
     public void 첨부파일삭제(Long fileId, UserEntity userEntity) {
 
-        FileEntity findFile = uploadRepository.findById(fileId).orElseThrow(() -> {
-            throw new CustomStandardValidationException("해당 첨부파일이 없습니다.");
-        });
+//        FileEntity findFile = uploadRepository.findById(fileId).orElseThrow(() -> {
+//            throw new CustomStandardValidationException("해당 첨부파일이 없습니다.");
+//        });
+
+        FileEntity findFile = uploadRepository.findById(fileId).get();
 
         if(findFile.getWriteEntity().getUserEntity().getId() != userEntity.getId()) {
             throw new CustomAlertStandardValidationException("권한이 없습니다.");

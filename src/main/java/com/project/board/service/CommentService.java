@@ -49,7 +49,7 @@ public class CommentService {
 
         return commentEntity;
     }
-    
+
 
     @Transactional
     public List<CommentEntity> 댓글불러오기(Long writeId) {
@@ -62,9 +62,11 @@ public class CommentService {
     @Transactional
     public CommentEntity 댓글한개선택(Long commentId) {
 
-        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-            return new CustomValidationApiException("댓글이 없습니다.");
-        });
+//        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
+//            return new CustomValidationApiException("댓글이 없습니다.");
+//        });
+
+        CommentEntity commentEntity = commentRepository.findById(commentId).get();
 
         return commentEntity;
     }
@@ -85,9 +87,11 @@ public class CommentService {
     @Transactional
     public void 댓글삭제(Long commentId, UserEntity userEntity, int size) {
 
-        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-            throw new CustomValidationException("댓글이 없습니다.");
-        });
+//        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
+//            throw new CustomValidationException("댓글이 없습니다.");
+//        });
+
+        CommentEntity commentEntity = commentRepository.findById(commentId).get();
 
         if(size != 0) {
             commentEntity.setIsDeleted(0);

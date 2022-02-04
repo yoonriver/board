@@ -107,9 +107,11 @@ public class WriteService {
     @Transactional
     public void 글수정(Long writeId, WriteDto writeDto, UserEntity userEntity) {
 
-        WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-            throw new CustomValidationException("게시글이 없습니다.");
-        });
+//        WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
+//            throw new CustomValidationException("게시글이 없습니다.");
+//        });
+
+        WriteEntity findWrites = writeRepository.findById(writeId).get();
 
         if(userEntity.getId() == findWrites.getUserEntity().getId()) {
             // 첨부파일 수정
@@ -133,9 +135,10 @@ public class WriteService {
                 }
             }
 
-            findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-                throw new CustomValidationException("게시글이 없습니다.");
-            });
+//            findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
+//                throw new CustomValidationException("게시글이 없습니다.");
+//            });
+            findWrites = writeRepository.findById(writeId).get();
 
             // 글 수정
             findWrites.setTitle(writeDto.getTitle());
@@ -185,10 +188,13 @@ public class WriteService {
                     }
                 }
 
+//                // 추가 된 이미지 목록이 10개 이상인지 검사
+//                findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
+//                    throw new CustomValidationException("게시글이 없습니다.");
+//                });
+
                 // 추가 된 이미지 목록이 10개 이상인지 검사
-                findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-                    throw new CustomValidationException("게시글이 없습니다.");
-                });
+                findWrites = writeRepository.findById(writeId).get();
 
                 if(findWrites.getFiles().size() > 10) {
                     throw new CustomStandardValidationException("파일을 10개 이상 등록 할 수 없습니다.");
@@ -204,9 +210,10 @@ public class WriteService {
     @Transactional
     public WriteEntity 글보기(Long writeId, PrincipalDetails principalDetails) {
 
-        WriteEntity writeEntity = writeRepository.findById(writeId).orElseThrow(() -> {
-            return new CustomValidationException("존재하지 않는 게시글 입니다.");
-        });
+//        WriteEntity writeEntity = writeRepository.findById(writeId).orElseThrow(() -> {
+//            return new CustomValidationException("존재하지 않는 게시글 입니다.");
+//        });
+        WriteEntity writeEntity = writeRepository.findById(writeId).get();
 
         // 글 쓴 본인이 아니면 조회수+1
         if(writeEntity.getUserEntity().getId() != principalDetails.getUserEntity().getId()) {
@@ -227,9 +234,10 @@ public class WriteService {
     @Transactional
     public void 글삭제(Long writeId, UserEntity userEntity) {
 
-        WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-            return new CustomValidationApiException("게시글이 없습니다.");
-        });
+//        WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
+//            return new CustomValidationException("게시글이 없습니다.");
+//        });
+        WriteEntity findWrites = writeRepository.findById(writeId).get();
 
         if(userEntity.getId() == findWrites.getUserEntity().getId() || userEntity.getRole() == Role.ADMIN) {
 

@@ -94,13 +94,17 @@ public class AuthService {
     @Transactional
     public void 비밀번호찾기(String username, String userEmail) {
 
-        userRepository.findByUsername(username).orElseThrow(() -> {
-            throw new CustomValidationException("일치하는 아이디가 없습니다.");
-        });
+//        userRepository.findByUsername(username).orElseThrow(() -> {
+//            throw new CustomValidationException("일치하는 아이디가 없습니다.");
+//        });
 
-        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-            throw new CustomValidationException("일치하는 이메일이 없습니다.");
-        });
+        userRepository.findByUsername(username).get();
+
+//        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+//            throw new CustomValidationException("일치하는 이메일이 없습니다.");
+//        });
+
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).get();
 
         String tempPw = UUID.randomUUID().toString().substring(0, 8);
         String encodedPassword = bCryptPasswordEncoder.encode(tempPw);

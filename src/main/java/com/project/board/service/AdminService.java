@@ -74,9 +74,11 @@ public class AdminService {
             throw new CustomStandardValidationException("로그인 한 계정은 삭제 할 수 없습니다.");
         }
 
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
-            throw new CustomValidationException("회원 정보가 없습니다.");
-        });
+//        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
+//            throw new CustomValidationException("회원 정보가 없습니다.");
+//        });
+
+        UserEntity findUser = userRepository.findById(userId).get();
 
         userRepository.deleteById(userId);
     }
