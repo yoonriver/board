@@ -84,9 +84,11 @@ public class AuthService {
 
     public void 아이디찾기(String userEmail) {
 
-        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-            throw new CustomValidationException("일치하는 이메일이 없습니다.");
-        });
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).get();
+//
+//        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+//            throw new CustomValidationException("일치하는 이메일이 없습니다.");
+//        });
 
         메일보내기(userEntity, null, "id");
     }
