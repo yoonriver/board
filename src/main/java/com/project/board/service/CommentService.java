@@ -5,6 +5,7 @@ import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationApiException;
+import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.UserRepository;
 import com.project.board.repository.CommentRepository;
 import com.project.board.repository.WriteRepository;
@@ -85,7 +86,7 @@ public class CommentService {
     public void 댓글삭제(Long commentId, UserEntity userEntity, int size) {
 
         CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-            throw new CustomValidationApiException("댓글이 없습니다.");
+            throw new CustomValidationException("댓글이 없습니다.");
         });
 
         if(size != 0) {
