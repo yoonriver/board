@@ -4,6 +4,7 @@ import com.project.board.config.auth.PrincipalDetails;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomStandardValidationException;
+import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.UserRepository;
 import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class AdminService {
         }
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
-            throw new CustomStandardValidationException("회원 정보가 없습니다.");
+            throw new CustomValidationException("회원 정보가 없습니다.");
         });
 
         return findUser;
@@ -74,7 +75,7 @@ public class AdminService {
 //        }
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
-            throw new CustomStandardValidationException("회원 정보가 없습니다.");
+            throw new CustomValidationException("회원 정보가 없습니다.");
         });
 
         userRepository.deleteById(userId);
