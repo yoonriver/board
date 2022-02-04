@@ -2,6 +2,7 @@ package com.project.board.service;
 
 import com.project.board.entity.UserEntity;
 import com.project.board.handler.ex.CustomStandardValidationException;
+import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.UserRepository;
 import com.project.board.role.Role;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +85,7 @@ public class AuthService {
     public void 아이디찾기(String userEmail) {
 
         UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-            throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
+            throw new CustomValidationException("일치하는 이메일이 없습니다.");
         });
 
         메일보내기(userEntity, null, "id");
@@ -94,11 +95,11 @@ public class AuthService {
     public void 비밀번호찾기(String username, String userEmail) {
 
         userRepository.findByUsername(username).orElseThrow(() -> {
-            throw new CustomStandardValidationException("일치하는 아이디가 없습니다.");
+            throw new CustomValidationException("일치하는 아이디가 없습니다.");
         });
 
         UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-            throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
+            throw new CustomValidationException("일치하는 이메일이 없습니다.");
         });
 
         String tempPw = UUID.randomUUID().toString().substring(0, 8);

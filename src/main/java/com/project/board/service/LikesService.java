@@ -4,6 +4,7 @@ import com.project.board.entity.LikesEntity;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
 import com.project.board.handler.ex.CustomValidationApiException;
+import com.project.board.handler.ex.CustomValidationException;
 import com.project.board.repository.LikesRepository;
 import com.project.board.repository.WriteRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class LikesService {
     public void 추천(Long writeId, UserEntity userEntity) {
 
         WriteEntity writeEntity = writeRepository.findById(writeId).orElseThrow(() -> {
-            return new CustomValidationApiException("게시글이 없습니다.");
+            return new CustomValidationException("게시글이 없습니다.");
         });
 
         LikesEntity likesEntity = new LikesEntity();
