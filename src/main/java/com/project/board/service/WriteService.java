@@ -108,7 +108,7 @@ public class WriteService {
     public void 글수정(Long writeId, WriteDto writeDto, UserEntity userEntity) {
 
         WriteEntity findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-            throw new CustomValidationApiException("게시글이 없습니다.");
+            throw new CustomValidationException("게시글이 없습니다.");
         });
 
         if(userEntity.getId() == findWrites.getUserEntity().getId()) {
@@ -134,7 +134,7 @@ public class WriteService {
             }
 
             findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-                throw new CustomValidationApiException("게시글이 없습니다.");
+                throw new CustomValidationException("게시글이 없습니다.");
             });
 
             // 글 수정
@@ -187,7 +187,7 @@ public class WriteService {
 
                 // 추가 된 이미지 목록이 10개 이상인지 검사
                 findWrites = writeRepository.findById(writeId).orElseThrow(() -> {
-                    throw new CustomValidationApiException("게시글이 없습니다.");
+                    throw new CustomValidationException("게시글이 없습니다.");
                 });
 
                 if(findWrites.getFiles().size() > 10) {
