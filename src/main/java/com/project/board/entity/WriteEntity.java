@@ -22,9 +22,13 @@ public class WriteEntity {
     @Id
     @GeneratedValue(generator = "POST_SEQ")
     private Long id;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String category;
+    @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
     private int count;
 
     @ManyToOne(fetch = FetchType.LAZY)

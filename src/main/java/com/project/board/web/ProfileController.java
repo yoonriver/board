@@ -35,8 +35,7 @@ public class ProfileController {
     }
 
 
-
-    @GetMapping("profile/{id}/pwUpdate")
+    @GetMapping("profile/{id}/pw-update")
     public String updatePw(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
 
         if(principalDetails.getUserEntity().getId() != id) {

@@ -75,9 +75,12 @@
                             <td width=100%>
                                 <label>카테고리</label>
                                 <select id="category" name="category">
-                                    <option value="news" <c:if test="${writes.category eq 'news'}">selected</c:if> >소식</option>
-                                    <option value="review" <c:if test="${writes.category eq 'review'}">selected</c:if> >리뷰</option>
-                                    <option value="chat" <c:if test="${writes.category eq 'chat'}">selected</c:if> >잡담</option>
+                                    <option value="news" <c:if test="${writes.category eq '소식'}">selected</c:if> >소식</option>
+                                    <option value="review" <c:if test="${writes.category eq '리뷰'}">selected</c:if> >리뷰</option>
+                                    <option value="chat" <c:if test="${writes.category eq '잡담'}">selected</c:if> >잡담</option>
+                                    <c:if test="${principal.userEntity.role == 'ADMIN'}">
+                                        <option value="공지" <c:if test="${writes.category eq '공지'}">selected</c:if>>공지</option>
+                                    </c:if>
                                 </select>
                                 <input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" value="${writes.title}"/>
                             </td>

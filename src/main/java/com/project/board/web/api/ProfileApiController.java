@@ -43,7 +43,7 @@ public class ProfileApiController {
 
     }
 
-    @PutMapping("api/profile/pwUpdate/{id}")
+    @PutMapping("api/profile/pw-update/{id}")
     public ResponseEntity<?> pwUpdate(@PathVariable Long id,
                                @Valid UserPwUpdateDto userPwUpdateDto,
                                BindingResult bindingResult,

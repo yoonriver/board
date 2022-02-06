@@ -29,6 +29,7 @@ public class LikesEntity {
     @JoinColumn(name = "WRITE_ID")
     private WriteEntity writeEntity;
 
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
     @PrePersist

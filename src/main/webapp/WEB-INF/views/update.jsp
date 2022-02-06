@@ -89,7 +89,7 @@
                     <button class="btn btn-primary form-control" id="regSubmit">정보 수정</button>
                 </form>
                     <br/>
-                    <button class="btn btn-primary form-control" onclick="location.href='/profile/${principal.userEntity.id}/pwUpdate'">비밀번호 변경</button>
+                    <button class="btn btn-primary form-control" onclick="location.href='/profile/${principal.userEntity.id}/pw-update'">비밀번호 변경</button>
             </div>
         </div>
 

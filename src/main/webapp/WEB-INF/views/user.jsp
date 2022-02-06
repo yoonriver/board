@@ -68,6 +68,9 @@
             <table class="table table-striped" style="text-align: center; border: 1px solid #ddddd">
                 <thead>
                     <tr>
+                        <h3 style="text-align: center;">회원 정보 조회</h3>
+                    </tr>
+                    <tr>
                         <th style="background-color: #eeeee; text-align: center;">회원번호</th>
                         <th style="background-color: #eeeee; text-align: center;">아이디</th>
                         <th style="background-color: #eeeee; text-align: center;">이름</th>

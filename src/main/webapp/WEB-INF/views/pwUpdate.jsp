@@ -74,11 +74,13 @@
                     </div>
                     <div class="form-group">
                         수정 비밀번호
-                        <input type="password" class="form-control" placeholder="수정 비밀번호" name="mod_password1" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
+                        <input type="password" class="form-control" placeholder="수정 비밀번호" id="mod_password1" name="mod_password1" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
+                        <div class="pw1Check" id="pw1Check"></div>
                     </div>
                     <div class="form-group">
                         수정 비밀번호 확인
-                        <input type="password" class="form-control" placeholder="수정 비밀번호 확인" name="mod_password2" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
+                        <input type="password" class="form-control" placeholder="수정 비밀번호 확인" id="mod_password2" name="mod_password2" maxlength="20" required="required" <c:if test="${not empty principal.userEntity.oauth}">readonly="readonly"</c:if>>
+                        <div class="pw1Check" id="pw2Check"></div>
                     </div>
 
                     <button class="btn btn-primary form-control" id="regSubmit">비밀번호 변경</button>

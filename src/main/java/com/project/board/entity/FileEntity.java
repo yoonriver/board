@@ -22,6 +22,7 @@ public class FileEntity {
 
     String imageFileName;
 
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
     @PrePersist
