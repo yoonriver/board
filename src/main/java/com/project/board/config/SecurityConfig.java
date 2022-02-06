@@ -44,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/main", true)
-                .failureHandler(authFailureHandler)
-                .and()
-                .rememberMe()
-                .key("rememberMe")
-                .userDetailsService(userDetailsService)
-                .tokenRepository(tokenRepository());
+                .failureHandler(authFailureHandler);
+//                .and()
+//                .rememberMe()
+//                .key("rememberMe")
+//                .userDetailsService(userDetailsService)
+//                .tokenRepository(tokenRepository());
 
     }
 

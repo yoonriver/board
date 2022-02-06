@@ -17,7 +17,7 @@ public class UserDto {
     @Size(min = 2, max = 20) // 2자 이상 20자 이하
     private String username;
     @NotBlank
-    private String password;
+    private String password1;
     @NotBlank
     private String name;
     @NotBlank
@@ -31,7 +31,7 @@ public class UserDto {
         return new UserEntity()
                     .builder()
                     .username(username)
-                    .password(password)
+                    .password(password1)
                     .name(name)
                     .userEmail(userEmail)
                     .build();

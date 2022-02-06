@@ -58,10 +58,9 @@ public class AdminService {
             throw  new CustomStandardValidationException("관리자가 아니므로 접근할 수 없습니다.");
         }
 
-        UserEntity findUser = userRepository.findById(userId).get();
-//        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
-//            throw new CustomValidationException("회원 정보가 없습니다.");
-//        });
+        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
+            throw new CustomStandardValidationException("회원 정보가 없습니다.");
+        });
 
         return findUser;
 
@@ -75,11 +74,9 @@ public class AdminService {
             throw new CustomStandardValidationException("로그인 한 계정은 삭제 할 수 없습니다.");
         }
 
-//        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
-//            throw new CustomValidationException("회원 정보가 없습니다.");
-//        });
-
-        UserEntity findUser = userRepository.findById(userId).get();
+        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> {
+            throw new CustomStandardValidationException("회원 정보가 없습니다.");
+        });
 
         userRepository.deleteById(userId);
     }

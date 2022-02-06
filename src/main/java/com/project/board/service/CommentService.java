@@ -3,6 +3,7 @@ package com.project.board.service;
 import com.project.board.entity.CommentEntity;
 import com.project.board.entity.UserEntity;
 import com.project.board.entity.WriteEntity;
+import com.project.board.handler.ex.CustomStandardValidationException;
 import com.project.board.handler.ex.CustomUpdateValidationException;
 import com.project.board.handler.ex.CustomValidationApiException;
 import com.project.board.handler.ex.CustomValidationException;
@@ -62,11 +63,9 @@ public class CommentService {
     @Transactional
     public CommentEntity 댓글한개선택(Long commentId) {
 
-//        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-//            return new CustomValidationApiException("댓글이 없습니다.");
-//        });
-
-        CommentEntity commentEntity = commentRepository.findById(commentId).get();
+        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
+            return new CustomStandardValidationException("댓글이 없습니다.");
+        });
 
         return commentEntity;
     }
@@ -87,11 +86,9 @@ public class CommentService {
     @Transactional
     public void 댓글삭제(Long commentId, UserEntity userEntity, int size) {
 
-//        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
-//            throw new CustomValidationException("댓글이 없습니다.");
-//        });
-
-        CommentEntity commentEntity = commentRepository.findById(commentId).get();
+        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> {
+            throw new CustomStandardValidationException("댓글이 없습니다.");
+        });
 
         if(size != 0) {
             commentEntity.setIsDeleted(0);

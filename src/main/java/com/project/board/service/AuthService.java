@@ -34,6 +34,14 @@ public class AuthService {
     @Transactional
     public void 회원가입(UserEntity userEntity) {
 
+        if (userRepository.existsByUsername(userEntity.getUsername())) {
+            throw new CustomStandardValidationException("이미 존재하는 id 입니다.");
+        }
+
+        if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
+            throw new CustomStandardValidationException("이미 존재하는 이메일 입니다.");
+        }
+
         String rawPassword = userEntity.getPassword();
         String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
         userEntity.setPassword(encodedPassword);
@@ -84,11 +92,10 @@ public class AuthService {
 
     public void 아이디찾기(String userEmail) {
 
-        UserEntity userEntity = userRepository.findByUserEmail(userEmail).get();
-//
-//        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-//            throw new CustomValidationException("일치하는 이메일이 없습니다.");
-//        });
+
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+            throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
+        });
 
         메일보내기(userEntity, null, "id");
     }
@@ -96,17 +103,13 @@ public class AuthService {
     @Transactional
     public void 비밀번호찾기(String username, String userEmail) {
 
-//        userRepository.findByUsername(username).orElseThrow(() -> {
-//            throw new CustomValidationException("일치하는 아이디가 없습니다.");
-//        });
+        userRepository.findByUsername(username).orElseThrow(() -> {
+            throw new CustomStandardValidationException("일치하는 아이디가 없습니다.");
+        });
 
-        userRepository.findByUsername(username).get();
-
-//        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
-//            throw new CustomValidationException("일치하는 이메일이 없습니다.");
-//        });
-
-        UserEntity userEntity = userRepository.findByUserEmail(userEmail).get();
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() -> {
+            throw new CustomStandardValidationException("일치하는 이메일이 없습니다.");
+        });
 
         String tempPw = UUID.randomUUID().toString().substring(0, 8);
         String encodedPassword = bCryptPasswordEncoder.encode(tempPw);

@@ -18,11 +18,6 @@ import java.util.Map;
 @ControllerAdvice
 public class ControlExceptionHandler {
 
-    @ExceptionHandler(CustomValidationException.class)
-    public String validationException(CustomValidationException e) {
-
-        return Script.alert(e.getErrorMap().toString());
-    }
 
     @ExceptionHandler(CustomStandardValidationException.class)
     public String customValidationException(CustomStandardValidationException e) {
@@ -36,27 +31,11 @@ public class ControlExceptionHandler {
         return Script.alert(e.getMessage());
     }
 
-    @ExceptionHandler(CustomUpdateValidationException.class)
-    public String updateValidationException(CustomUpdateValidationException e) {
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(CustomPwUpdateValidationException.class)
-    public String pwUpdateValidationException(CustomPwUpdateValidationException e) {
-        return e.getMessage();
-    }
-
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
 
         return new ResponseEntity<CMRespDto<?>>(
                 new CMRespDto<>(-1,e.getMessage(),e.getErrorMap()),
                 HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String uploadValidationException(MaxUploadSizeExceededException e) {
-
-        return Script.back("용량이 10mb를 넘을 수 없습니다.");
     }
 }
